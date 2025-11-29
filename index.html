@@ -1,0 +1,3049 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>منصة QDU للاختبار التفاعلي</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&amp;family=Poppins:wght@400;500;600&amp;display=swap" rel="stylesheet">
+  <script src="/_sdk/element_sdk.js"></script>
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      font-family: 'Tajawal', sans-serif;
+    }
+
+    .app-wrapper {
+      width: 100%;
+      min-height: 100%;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    .app-wrapper.light-mode {
+      background: linear-gradient(135deg, #e3f2fd 0%, #f5f5f5 100%);
+      color: #1a1a1a;
+    }
+
+    .app-wrapper.dark-mode {
+      background: linear-gradient(135deg, #1a2332 0%, #2c3e50 100%);
+      color: #e0e0e0;
+    }
+
+    .top-controls {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      display: flex;
+      gap: 15px;
+      z-index: 1000;
+    }
+
+    .control-btn {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .light-mode .control-btn {
+      background: white;
+      color: #1976d2;
+    }
+
+    .dark-mode .control-btn {
+      background: #34495e;
+      color: #ecf0f1;
+    }
+
+    .control-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .main-container {
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 30px 20px;
+    }
+
+    .header-section {
+      text-align: center;
+      margin-bottom: 40px;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    }
+
+    .light-mode .header-section {
+      background: white;
+    }
+
+    .dark-mode .header-section {
+      background: #34495e;
+    }
+
+    .logo-section {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .logo-icon {
+      font-size: 48px;
+    }
+
+    .platform-title {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .light-mode .platform-title {
+      background: linear-gradient(135deg, #1976d2 0%, #42a5f5 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .dark-mode .platform-title {
+      color: #64b5f6;
+    }
+
+    .subject-name {
+      font-size: 20px;
+      margin-bottom: 15px;
+      opacity: 0.8;
+    }
+
+    .student-info {
+      font-size: 18px;
+      padding: 12px 24px;
+      border-radius: 25px;
+      display: inline-block;
+    }
+
+    .light-mode .student-info {
+      background: linear-gradient(135deg, #1976d2 0%, #42a5f5 100%);
+      color: white;
+    }
+
+    .dark-mode .student-info {
+      background: linear-gradient(135deg, #2980b9 0%, #3498db 100%);
+      color: white;
+    }
+
+    .lecture-selection {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+      margin-bottom: 30px;
+    }
+
+    .lecture-card {
+      padding: 30px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .light-mode .lecture-card {
+      background: white;
+    }
+
+    .dark-mode .lecture-card {
+      background: #34495e;
+    }
+
+    .lecture-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .lecture-icon {
+      font-size: 48px;
+      margin-bottom: 15px;
+    }
+
+    .lecture-title {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .lecture-info {
+      font-size: 15px;
+      opacity: 0.8;
+      margin-bottom: 8px;
+    }
+
+    .back-btn {
+      padding: 12px 28px;
+      border: none;
+      border-radius: 25px;
+      font-size: 16px;
+      font-family: 'Tajawal', sans-serif;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-bottom: 25px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .light-mode .back-btn {
+      background: #f5f5f5;
+      color: #1976d2;
+    }
+
+    .dark-mode .back-btn {
+      background: #2c3e50;
+      color: #64b5f6;
+    }
+
+    .back-btn:hover {
+      transform: scale(1.05);
+    }
+
+    .quiz-card {
+      padding: 35px;
+      border-radius: 20px;
+      margin-bottom: 30px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .light-mode .quiz-card {
+      background: white;
+    }
+
+    .dark-mode .quiz-card {
+      background: #34495e;
+    }
+
+    .question-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .question-number {
+      font-size: 18px;
+      font-weight: 600;
+      padding: 8px 16px;
+      border-radius: 20px;
+    }
+
+    .light-mode .question-number {
+      background: #e3f2fd;
+      color: #1976d2;
+    }
+
+    .dark-mode .question-number {
+      background: #2c3e50;
+      color: #64b5f6;
+    }
+
+    .progress-text {
+      font-size: 16px;
+      opacity: 0.7;
+    }
+
+    .question-content {
+      margin-bottom: 25px;
+    }
+
+    .question-text-wrapper {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 15px;
+    }
+
+    .question-text {
+      font-size: 20px;
+      font-weight: 500;
+      font-family: 'Poppins', sans-serif;
+      line-height: 1.6;
+      flex: 1;
+      direction: ltr;
+      text-align: left;
+    }
+
+    .translate-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 24px;
+      padding: 5px;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      flex-shrink: 0;
+    }
+
+    .light-mode .translate-btn {
+      color: #1976d2;
+    }
+
+    .dark-mode .translate-btn {
+      color: #64b5f6;
+    }
+
+    .translate-btn:hover {
+      transform: scale(1.1);
+      background: rgba(25, 118, 210, 0.1);
+    }
+
+    .translation-text {
+      font-size: 18px;
+      padding: 15px;
+      border-radius: 12px;
+      margin-top: 15px;
+      line-height: 1.8;
+      animation: slideDown 0.3s ease;
+      direction: rtl;
+    }
+
+    .light-mode .translation-text {
+      background: #e8f5e9;
+      color: #2e7d32;
+      border-right: 4px solid #4caf50;
+    }
+
+    .dark-mode .translation-text {
+      background: #1e3a2f;
+      color: #81c784;
+      border-right: 4px solid #66bb6a;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .options-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .option-btn {
+      padding: 18px 24px;
+      border: 2px solid;
+      border-radius: 12px;
+      font-size: 17px;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: left;
+      direction: ltr;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .option-letter {
+      font-weight: 700;
+      font-size: 18px;
+      min-width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .light-mode .option-letter {
+      background: #e3f2fd;
+      color: #1976d2;
+    }
+
+    .dark-mode .option-letter {
+      background: #2c3e50;
+      color: #64b5f6;
+    }
+
+    .light-mode .option-btn {
+      background: white;
+      border-color: #e0e0e0;
+      color: #333;
+    }
+
+    .dark-mode .option-btn {
+      background: #2c3e50;
+      border-color: #4a5f7f;
+      color: #ecf0f1;
+    }
+
+    .option-btn:hover:not(:disabled) {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    .light-mode .option-btn:hover:not(:disabled) {
+      border-color: #1976d2;
+      background: #e3f2fd;
+    }
+
+    .dark-mode .option-btn:hover:not(:disabled) {
+      border-color: #64b5f6;
+      background: #3d5a80;
+    }
+
+    .option-btn.correct {
+      border-color: #4caf50;
+      animation: correctPulse 0.5s ease;
+    }
+
+    .light-mode .option-btn.correct {
+      background: #e8f5e9;
+      color: #2e7d32;
+    }
+
+    .dark-mode .option-btn.correct {
+      background: #1e3a2f;
+      color: #81c784;
+    }
+
+    .option-btn.incorrect {
+      border-color: #f44336;
+      animation: shake 0.5s ease;
+    }
+
+    .light-mode .option-btn.incorrect {
+      background: #ffebee;
+      color: #c62828;
+    }
+
+    .dark-mode .option-btn.incorrect {
+      background: #3a1f1f;
+      color: #ef5350;
+    }
+
+    .option-btn:disabled {
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+
+    @keyframes correctPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-10px); }
+      75% { transform: translateX(10px); }
+    }
+
+    .feedback-box {
+      padding: 18px;
+      border-radius: 12px;
+      margin-top: 20px;
+      font-size: 17px;
+      line-height: 1.8;
+      animation: slideDown 0.3s ease;
+      direction: rtl;
+    }
+
+    .next-btn {
+      padding: 15px 40px;
+      border: none;
+      border-radius: 25px;
+      font-size: 18px;
+      font-family: 'Tajawal', sans-serif;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 20px;
+      color: white;
+    }
+
+    .light-mode .next-btn {
+      background: linear-gradient(135deg, #1976d2 0%, #42a5f5 100%);
+    }
+
+    .dark-mode .next-btn {
+      background: linear-gradient(135deg, #2980b9 0%, #3498db 100%);
+    }
+
+    .next-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .light-mode .feedback-box {
+      background: #fff3e0;
+      color: #e65100;
+      border-right: 4px solid #ff9800;
+    }
+
+    .dark-mode .feedback-box {
+      background: #3a2e1f;
+      color: #ffb74d;
+      border-right: 4px solid #ffa726;
+    }
+
+    .results-container {
+      text-align: center;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    }
+
+    .light-mode .results-container {
+      background: white;
+    }
+
+    .dark-mode .results-container {
+      background: #34495e;
+    }
+
+    .results-icon {
+      font-size: 80px;
+      margin-bottom: 20px;
+      animation: bounceIn 0.6s ease;
+    }
+
+    @keyframes bounceIn {
+      0% { transform: scale(0); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    .results-title {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    .score-display {
+      font-size: 64px;
+      font-weight: 700;
+      margin: 30px 0;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .score-display.fail {
+      color: #f44336;
+    }
+
+    .score-display.pass {
+      color: #4caf50;
+    }
+
+    .score-display.excellent {
+      background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .results-message {
+      font-size: 22px;
+      line-height: 1.8;
+      margin-bottom: 30px;
+      padding: 20px;
+      border-radius: 12px;
+    }
+
+    .light-mode .results-message {
+      background: #f5f5f5;
+    }
+
+    .dark-mode .results-message {
+      background: #2c3e50;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .action-btn {
+      padding: 15px 35px;
+      border: none;
+      border-radius: 25px;
+      font-size: 18px;
+      font-family: 'Tajawal', sans-serif;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .action-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .primary-btn {
+      color: white;
+    }
+
+    .light-mode .primary-btn {
+      background: linear-gradient(135deg, #1976d2 0%, #42a5f5 100%);
+    }
+
+    .dark-mode .primary-btn {
+      background: linear-gradient(135deg, #2980b9 0%, #3498db 100%);
+    }
+
+    .secondary-btn {
+      border: 2px solid;
+    }
+
+    .light-mode .secondary-btn {
+      background: white;
+      border-color: #1976d2;
+      color: #1976d2;
+    }
+
+    .dark-mode .secondary-btn {
+      background: transparent;
+      border-color: #64b5f6;
+      color: #64b5f6;
+    }
+
+    .review-question {
+      padding: 25px;
+      border-radius: 15px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .light-mode .review-question {
+      background: white;
+    }
+
+    .dark-mode .review-question {
+      background: #2c3e50;
+    }
+
+    .review-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .review-status {
+      padding: 6px 14px;
+      border-radius: 15px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .review-status.correct {
+      background: #e8f5e9;
+      color: #2e7d32;
+    }
+
+    .review-status.incorrect {
+      background: #ffebee;
+      color: #c62828;
+    }
+
+    .review-question-text {
+      font-size: 18px;
+      font-family: 'Poppins', sans-serif;
+      margin-bottom: 15px;
+      direction: ltr;
+      text-align: left;
+    }
+
+    .review-options {
+      display: grid;
+      gap: 10px;
+    }
+
+    .review-option {
+      padding: 12px 18px;
+      border-radius: 10px;
+      font-family: 'Poppins', sans-serif;
+      direction: ltr;
+      text-align: left;
+    }
+
+    .light-mode .review-option {
+      background: #f5f5f5;
+    }
+
+    .dark-mode .review-option {
+      background: #34495e;
+    }
+
+    .review-option.user-answer {
+      border: 2px solid #2196f3;
+      font-weight: 600;
+    }
+
+    .review-option.correct-answer {
+      border: 2px solid #4caf50;
+      font-weight: 600;
+    }
+
+    .light-mode .review-option.correct-answer {
+      background: #e8f5e9;
+    }
+
+    .dark-mode .review-option.correct-answer {
+      background: #1e3a2f;
+    }
+
+    .confetti-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      animation: confettiFall 3s linear forwards;
+    }
+
+    @keyframes confettiFall {
+      to {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .platform-title {
+        font-size: 24px;
+      }
+
+      .subject-name {
+        font-size: 16px;
+      }
+
+      .student-info {
+        font-size: 15px;
+      }
+
+      .quiz-card {
+        padding: 20px;
+      }
+
+      .question-text {
+        font-size: 17px;
+      }
+
+      .options-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .score-display {
+        font-size: 48px;
+      }
+
+      .results-message {
+        font-size: 18px;
+      }
+
+      .top-controls {
+        top: 10px;
+        left: 10px;
+        gap: 10px;
+      }
+
+      .control-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 18px;
+      }
+
+      .lecture-selection {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+ </head>
+ <body>
+  <div class="app-wrapper light-mode" id="appWrapper">
+   <div class="top-controls"><button class="control-btn" id="darkModeBtn" aria-label="تبديل الوضع الليلي">☀️</button> <button class="control-btn" id="fullscreenBtn" aria-label="ملء الشاشة">⛶</button>
+   </div>
+   <main class="main-container">
+    <header class="header-section">
+     <div class="logo-section">
+      <div class="logo-icon">
+       🎓
+      </div>
+     </div>
+     <h1 class="platform-title" id="platformTitle">منصة QDU للاختبار التفاعلي</h1>
+     <p class="subject-name" id="subjectName">مادة الوقاية الشعاعية</p>
+     <div class="student-info"><span>الطالب: </span> <span id="studentName">مقتدى الكناني</span>
+     </div>
+    </header>
+    <div id="quizContent"></div>
+   </main>
+  </div>
+  <script>
+    const defaultConfig = {
+      platform_title: 'منصة QDU للاختبار التفاعلي',
+      subject_name: 'مادة الوقاية الشعاعية',
+      student_name: 'مقتدى الكناني',
+      pass_message: 'أداء جيد! استمر في التقدم والمراجعة لتحقيق الأفضل.',
+      excellent_message: 'أداء أسطوري! أنت حقاً تفهم المادة بعمق. تهانينا!',
+      fail_message: 'لا بأس، كل خبير كان مبتدئاً. راجع إجاباتك وحاول مجدداً!',
+      background_color: '#e3f2fd',
+      card_color: '#ffffff',
+      primary_color: '#1976d2',
+      text_color: '#1a1a1a',
+      accent_color: '#42a5f5',
+      font_family: 'Tajawal',
+      font_size: 16
+    };
+
+    const lectures = [
+      {
+        id: 1,
+        title: "Atomic Structure",
+        titleAr: "البنية الذرية",
+        icon: "⚛️",
+        questionsCount: 57,
+        questions: [
+      {
+        lecture: "Atomic Structure",
+        question: "Which of the following statements best describes the structure of an atom?",
+        translation: "أي من العبارات التالية تصف بنية الذرة بشكل أفضل",
+        options: ["A large, negatively charged nucleus surrounded by positively charged electrons", "A small, positively charged nucleus surrounded by a cloud of negatively charged electrons", "A nucleus with no charge, surrounded by a cloud of neutrons and protons", "A nucleus containing only electrons, surrounded by protons and neutrons"],
+        correct: 1,
+        explanation: "الذرة تتكون من نواة صغيرة موجبة الشحنة محاطة بسحابة من الإلكترونات سالبة الشحنة."
+      },
+      {
+        lecture: "Atomic Structure",
+        question: "What is the approximate size of the nucleus compared to the size of the atom?",
+        translation: "ما هو الحجم التقريبي للنواة مقارنة بحجم الذرة؟",
+        options: ["The nucleus is larger than the atom", "The nucleus is about the same size as the atom", "The nucleus is less than one ten-thousandth the size of the atom", "The nucleus is exactly half the size of the atom"],
+        correct: 2,
+        explanation: "النواة صغيرة جداً مقارنة بحجم الذرة، حيث تبلغ أقل من 1/10000 من حجم الذرة."
+      },
+      {
+        lecture: "Atomic Structure",
+        question: "What is the mass number (A) of an atom equal to?",
+        translation: "ماذا يساوي العدد الكتلي (A) للذرة؟",
+        options: ["The number of protons (Z) only", "The number of neutrons (N) only", "The sum of protons (Z) and neutrons (N)", "The difference between protons and neutrons (Z - N)"],
+        correct: 2,
+        explanation: "العدد الكتلي يساوي مجموع عدد البروتونات والنيوترونات في النواة."
+      },
+      {
+        lecture: "Atomic Structure",
+        question: "Which of the following particles has a relative charge of +1?",
+        translation: "أي من الجسيمات التالية له شحنة نسبية +1؟",
+        options: ["Neutron", "Electron", "Proton", "Alpha"],
+        correct: 2,
+        explanation: "البروتون يشمل شحنة موجبة قدرها +1."
+      },
+      {
+        lecture: "Atomic Structure",
+        question: "What is the charge of a neutron?",
+        translation: "ما هي شحنة النيوترون؟",
+        options: ["+1", "-1", "0", "+2"],
+        correct: 2,
+        explanation: "النيوترون جسيم متعادل كهربائياً، أي شحنته تساوي صفر."
+      },
+      {
+        lecture: "Atomic Structure",
+        question: "Which particle is also known as a beta minus particle?",
+        translation: "أي جسيم يُعرف أيضاً بجسيم بيتا السالب؟",
+        options: ["Proton", "Neutron", "Electron", "Positron"],
+        correct: 2,
+        explanation: "الإلكترون يُعرف أيضاً بجسيم بيتا السالب (β-) في الإشعاع النووي."
+      },
+      {
+        lecture: "Atomic Structure",
+        question: "What is the symbol for an alpha particle?",
+        translation: "ما هو رمز جسيم ألفا؟",
+        options: ["e⁻", "p⁺", "α", "n⁰"],
+        correct: 2,
+        explanation: "رمز جسيم ألفا هو α، وهو عبارة عن نواة هيليوم."
+      },
+      {
+        lecture: "Atomic Structure",
+        question: "What is the charge of a positron?",
+        translation: "ما هي شحنة البوزيترون؟",
+        options: ["+1", "-1", "0", "+2"],
+        correct: 0,
+        explanation: "البوزيترون هو الجسيم المضاد للإلكترون ويحمل شحنة موجبة +1."
+      },
+      {
+        lecture: "Atomic Structure",
+        question: "Where is the mass of an atom primarily concentrated?",
+        translation: "أين تتركز كتلة الذرة بشكل أساسي؟",
+        options: ["In the electron cloud", "In the electron shells", "In the nucleus", "Throughout the atom"],
+        correct: 2,
+        explanation: "معظم كتلة الذرة (أكثر من 99.9%) متركزة في النواة."
+      },
+      {
+        lecture: "Atomic Structure",
+        question: "The nucleus of an atom is:",
+        translation: "نواة الذرة هي:",
+        options: ["Positively charged and contains most of the atom's mass", "Negatively charged and contains most of the atom's mass", "Neutral and contains very little of the atom's mass", "Positively charged and contains very little of the atom's mass"],
+        correct: 0,
+        explanation: "النواة موجبة الشحنة ويحتوي على معظم كتلة الذرة."
+      },
+      {
+        lecture: "Atomic Structure",
+        question: "What does Z represent in the context of atomic structure?",
+        translation: "ماذا يمثل Z في سياق البنية الذرية؟",
+        options: ["Mass number", "Number of neutrons", "Atomic number (number of protons)", "Number of electrons"],
+        correct: 2,
+        explanation: "Z يمثل العدد الذري، وهو عدد البروتونات في النواة."
+      },
+      {
+        lecture: "Atomic Structure",
+        question: "Where are the electrons located in an atom?",
+        translation: "أين تقع الإلكترونات في الذرة؟",
+        options: ["In the nucleus", "Surrounding the nucleus in a cloud", "Inside the neutrons", "Inside the protons"],
+        correct: 1,
+        explanation: "الالكترونات موجودة في سحابة حول النواة في مستويات طاقة مختلفة."
+      },
+      {
+        lecture: "Atomic Structure",
+        question: "The nucleus contains more than what percentage of the atom's mass?",
+        translation: "تحتوي النواة على أكثر من أي نسبة مئوية من كتلة الذرة؟",
+        options: ["50%", "75%", "90%", "99.9%"],
+        correct: 3,
+        explanation: "النواة تحتوي على أكثر من 99.9% من كتلة الذرة."
+      },
+      {
+        lecture: "Atomic Structure",
+        question: "The energy required to separate an atomic nucleus completely into its constituent protons and neutrons is known as:",
+        translation: "الطاقة المطلوبة لفصل نواة ذرية تماماً إلى البروتونات والنيوترونات المكونة لها تُعرف بـ:",
+        options: ["Electron binding energy", "Ionization potential", "Nuclear binding energy", "Atomic excitation energy"],
+        correct: 2,
+        explanation: "طاقة الربط النووي هي الطاقة اللازمة لفصل مكونات النواة."
+      },
+      {
+        lecture: "Atomic Structure",
+        question: "The energy required to remove an electron from an atom, a molecule, or an ion is called:",
+        translation: "الطاقة المطلوبة لإزالة إلكترون من ذرة او جزيء أو أيون تُسمى:",
+        options: ["Nuclear binding energy", "Electron binding energy", "Excitation energy", "Radiation energy"],
+        correct: 1,
+        explanation: "طاقة ربط الإلكترون هي الطاقة اللازمة لإزالة الإلكترون من مدار."
+      },
+      {
+        lecture: "Atomic Structure",
+        question: "An atom is considered ionized when:",
+        translation: "تُعتبر الذرة متأينة عندما:",
+        options: ["An electron is raised to a higher shell", "One of its electrons has been completely removed", "It absorbs radiation", "It emits radiation"],
+        correct: 1,
+        explanation: "التأين يحدث عندما يتم إزالة إلكترون كلياً من الذرة."
+      },
+      {
+        lecture: "Atomic Structure",
+        question: "Electron binding energy depends on:",
+        translation: "تعتمد طاقة ربط الإلكترون على:",
+        options: ["The element only", "The atomic number only", "EK>EL>EM and on the element", "The number of neutrons"],
+        correct: 2,
+        explanation: "طاقة ربط الإلكترون تعتمد على العنصر والمدارات حيث EK>EL>EM."
+      },
+      {
+        lecture: "Atomic Structure",
+        question: "An atom is said to be excited when:",
+        translation: "يُقال أن الذرة في حالة إثارة عندما:",
+        options: ["An electron is removed", "An electron is raised from one shell to another farther out", "It undergoes nuclear decay", "It becomes ionized"],
+        correct: 1,
+        explanation: "الإثارة تحدث عندما ينتقل الإلكترون إلى مدار أعلى دون إزالته من الذرة."
+      },
+      {
+        lecture: "Atomic Structure",
+        question: "Which of the following is NOT a type of radiation?",
+        translation: "أي من التالي ليس نوعًا من الإشعاع؟",
+        options: ["Non-ionizing", "Directly ionizing", "Indirect ionizing", "Nuclear binding"],
+        correct: 3,
+        explanation: "الربط النووي ليس نوعاً من الإشعاع بل هو طاقة تربط مكونات النواة."
+      },
+      {
+        lecture: "Atomic Structure",
+        question: "Which of the following is an example of directly ionizing radiation?",
+        translation: "أي مما يلي مثال على الإشعاع المؤين المباشر؟",
+        options: ["Neutrons", "Gamma rays", "Alpha particles", "X-rays"],
+        correct: 2,
+        explanation: "جسيمات ألفا هي إشعاع مؤين مباشر لأنها جسيمات مشحونة."
+      },
+      {
+        lecture: "Atomic Structure",
+        question: "Which of the following is an example of indirectly ionizing radiation?",
+        translation: "أي مما يلي مثال على الاشعاع المؤين غير المباشر؟",
+        options: ["Electrons", "Positrons", "Protons", "X-rays"],
+        correct: 3,
+        explanation: "الأشعة السينية هي إشعاع مؤين غير مباشر لأنها موجات كهرومغناطيسية."
+      },
+      {
+        lecture: "Atomic Structure",
+        question: "What is the symbol for a positron?",
+        translation: "ما هو رمز البوزيترون؟",
+        options: ["e⁻", "e⁺", "p⁺", "n⁰"],
+        correct: 1,
+        explanation: "مز البوزيترون هو e⁺، هو الجسيم المضاد للإلكترون."
+      },
+      {
+        lecture: "Atomic Structure",
+        question: "Which of the following is NOT a charged particle?",
+        translation: "أي من التالي ليس جسيماً مشحوناً؟",
+        options: ["Electron", "Positron", "Alpha particle", "Neutron"],
+        correct: 3,
+        explanation: "النيوترون ليس جسيماً مشحوناً، فهو متعادل كهربائياً بينما الإلكترون والبوزيترون وجسيم ألفا كلها مشحونة."
+      },
+      {
+        lecture: "Atomic Structure",
+        question: "The energy that would be liberated by combining individual protons and neutrons into a single nucleus is equivalent to:",
+        translation: "الطاقة التي ستنطلق عند دمج البروتونات والنيووترونات المنفردة في نواة واحدة تعادل:",
+        options: ["Electron binding energy", "Ionization potential", "Nuclear binding energy", "Atomic excitation energy"],
+        correct: 2,
+        explanation: "طاقة الربط النووي هي الطاقة التي تنطلق عند تكوين النواة من مكوناتها الأساسية."
+      },
+      {
+        lecture: "Atomic Structure",
+        question: "The electron binding energy is also known as:",
+        translation: "طاقة ربط الإلكترون تُعرف أيضاً باسم:",
+        options: ["Nuclear binding energy", "Excitation energy", "Ionization potential", "Radiation energy"],
+        correct: 2,
+        explanation: "طاقة ربط الإلكترون تُعرف أيضاً بجهد التأين، وهي الطاقة اللازمة لإزالة الإلكترون."
+      },
+      {
+        lecture: "Atomic Structure",
+        question: "Which of the following is NOT a directly ionizing particle?",
+        translation: "أي من التالي ليس جسيماً مؤيناً مباشراً؟",
+        options: ["Alpha", "Beta", "Gamma", "Proton"],
+        correct: 2,
+        explanation: "أشعة جاما ليست جسيمات مشحونة، بل موجات كهرومغناطيسية، ذا فهي إشعاع مؤين غير مباشر."
+      },
+      {
+        lecture: "Atomic Structure",
+        question: "The electron binding energy depends on which of the following?",
+        translation: "تعتمد طاقة ربط الإلكترون على أي مما يلي؟",
+        options: ["EK", "EL", "EM", "All of the above"],
+        correct: 3,
+        explanation: "طاقة ربط الإلكترون تعتمد على جميع المدارات (K, L, M) وتختلف قيمتها اختلاف المدار."
+      },
+      {
+        lecture: "Atomic Structure",
+        question: "Which of the following is a type of indirectly ionizing radiation?",
+        translation: "أي من التالي هو نوع من الإشعاع المؤين غير المباشر؟",
+        options: ["Alpha particles", "Beta particles", "Gamma rays", "Protons"],
+        correct: 2,
+        explanation: "أشعة جاما هي إشعاع مؤين غير مباشر أنها موجات كهرومغناطيسية غير مشحونة."
+      },
+      {
+        lecture: "Atomic Structure",
+        question: "What is the relationship between EK, EL, and EM in terms of electron binding energy?",
+        translation: "ما هي العلاقة بين EK و EL و EM من حيث طاقة ربط الإلكترون؟",
+        options: ["EK > EL > EM", "EK < EL < EM", "EK = EL = EM", "The relationship is not defined"],
+        correct: 0,
+        explanation: "طاقة الربط تكون أعلى في المدار الأقرب للنواة، لذا EK > EL > EM."
+      },
+      {
+        lecture: "Atomic Structure",
+        question: "What happens to an atom when an electron is raised from one shell to another farther out?",
+        translation: "ماذا يحدث للذرة عندما ينتقل إلكترون من مدار إلى مدار أبعد؟",
+        options: ["It becomes ionized", "It is excited", "It undergoes nuclear decay", "It emits radiation"],
+        correct: 1,
+        explanation: "عندما ينتقل الإلكترون إلى مدار أبعد دون أن يغادر الذرة، تكون الذرة في حالة إثارة."
+      },
+      {
+        lecture: "Atomic Structure",
+        question: "Which of the following is a neutral particle?",
+        translation: "أي من التالي هو جسيم متعادل؟",
+        options: ["Electron", "Positron", "Neutron", "Proton"],
+        correct: 2,
+        explanation: "النيوترون هو الجسيم المتعادل الوحيد من بين الخيارات، فهو لا يحمل شحنة كهربائية."
+      },
+      {
+        lecture: "Atomic Structure",
+        question: "What is the primary difference between directly and indirectly ionizing radiation?",
+        translation: "ما هو الفرق الأساسي بين الإشعاع المؤين المباشر وغير المباشر؟",
+        options: ["Directly ionizing radiation has a charge, while indirectly ionizing radiation is neutral", "Directly ionizing radiation is more dangerous", "Indirectly ionizing radiation has a charge, while directly ionizing radiation is neutral", "There is no difference"],
+        correct: 0,
+        explanation: "الإشعاع المؤين المباشر يحمل شحنة كهربائية، بينما الإشعاع غير المباشر متعادل كهربائياً."
+      },
+      {
+        lecture: "Atomic Structure",
+        question: "What is the relationship between atomic number and electron binding energy?",
+        translation: "ما هي العلاقة بين العدد الذري وطاقة ربط الإلكترون؟",
+        options: ["Electron binding energy decreases as the atomic number increases", "Electron binding energy is not related to the atomic number", "Electron binding energy increases as the atomic number increases", "Electron binding energy remains constant regardless of the atomic number"],
+        correct: 2,
+        explanation: "طاقة ربط الإلكترون تزداد مع زيادة العدد الذري لأن قوة جذب النواة للإلكترونات تزداد."
+      },
+      {
+        lecture: "Atomic Structure",
+        question: "What is the range of alpha particles in air?",
+        translation: "ما هو مدى جسيمات ألفا في الهواء؟",
+        options: ["About 1 cm", "About 10 cm", "About 1 meter", "About 10 meters"],
+        correct: 1,
+        explanation: "مدى جسيمات ألفا في الهواء حوالي 10 سم فقط بسبب حجمها الكبير وشحنتها العالية."
+      },
+      {
+        lecture: "Atomic Structure",
+        question: "Which type of radiation is considered indirectly ionizing?",
+        translation: "أي نوع من الإشعاع يُعتبر مؤيناً بشكل غير مباشر؟",
+        options: ["Alpha particles", "Beta particles", "Neutrons", "High-speed electrons"],
+        correct: 2,
+        explanation: "النيوترونات هي إشعاع مؤين غير مباشر لأنها متعادلة كهربائياً وتؤين بطريقة غير مباشرة."
+      },
+      {
+        lecture: "Atomic Structure",
+        question: "What is the primary source of cosmic radiation?",
+        translation: "ما هو المصدر الأساسي للإشعاع الكوني؟",
+        options: ["The Earth's crust", "Nuclear weapons testing", "The sun and other celestial events", "Medical X-rays"],
+        correct: 2,
+        explanation: "الإشعاع الكوني يأتي بشكل أساسي من الشمس والأحداث الفلكية الأخرى في الفضاء."
+      },
+      {
+        lecture: "Atomic Structure",
+        question: "Which of the following is a source of terrestrial radiation?",
+        translation: "أي من التالي هو مصدر للإشعاع الأرضي؟",
+        options: ["The sun", "Uranium deposits", "Nuclear accidents", "Medical X-rays"],
+        correct: 1,
+        explanation: "رواسب اليورانيوم في القشرة الأرضية هي أحد مصادر الإشعاع الأرضي الطبيعي."
+      },
+      {
+        lecture: "Atomic Structure",
+        question: "What is the main characteristic of indirectly ionizing radiation?",
+        translation: "ما هي الخاصية الرئيسية للإشعاع المؤين غير المباشر؟",
+        options: ["It carries a charge", "It interacts directly with atomic electrons", "It is electrically neutral", "It has a short range in air"],
+        correct: 2,
+        explanation: "الخاصية الرئيسية للإشعاع المؤين غير المباشر هي أنه متعادل كهربائياً."
+      },
+      {
+        lecture: "Atomic Structure",
+        question: "What is the approximate penetration depth of beta particles into the human body?",
+        translation: "ما هو عمق اختراق جسيمات بيتا التقريبي في جسم الإنسان؟",
+        options: ["0.02 to 0.13 cm", "0.2 to 1.3 cm", "2 to 13 cm", "20 to 130 cm"],
+        correct: 1,
+        explanation: "عمق اختراق جسيمات بيتا في جسم الإنسان يتراوح بين 0.2 إلى 1.3 سم."
+      },
+      {
+        lecture: "Atomic Structure",
+        question: "Which of the following is a human-made source of ionizing radiation?",
+        translation: "أي من التالي هو مصدر من صنع الإنسان للإشعاع المؤين؟",
+        options: ["Cosmic radiation", "Terrestrial radiation", "Fallout from nuclear weapons testing", "Solar flares"],
+        correct: 2,
+        explanation: "التساقط الإشعاعي من تجارب الأسلحة النووية هو مصدر من صنع الإنسان للإشعاع المؤين."
+      },
+      {
+        lecture: "Atomic Structure",
+        question: "What causes ionization by neutrons?",
+        translation: "ما الذي يسبب التأين بواسطة النيوترونات",
+        options: ["Direct interaction with atomic electrons", "Collisions with atomic nuclei", "Their electrical charge", "Their electromagnetic properties"],
+        correct: 1,
+        explanation: "النيوترونات تسبب التأين من خلال الاصطدام بالنوى الذرية وليس بالتفاعل المباشر مع الإلكترونات."
+      },
+      {
+        lecture: "Atomic Structure",
+        question: "What is the composition of an alpha particle?",
+        translation: "ما هو تركيب جسيم ألفا؟",
+        options: ["One proton and one neutron", "One proton and two neutrons", "Two protons and one neutron", "Two protons and two neutrons"],
+        correct: 3,
+        explanation: "جسيم ألفا يتكون من بروتونين ونيوترونين، وهو مطابق لنواة ذرة الهيليوم."
+      },
+      {
+        lecture: "Atomic Structure",
+        question: "Which type of radiation is electromagnetic?",
+        translation: "أي نوع من الإشعاع هو كهرومغناطيسي؟",
+        options: ["Alpha particles", "Beta particles", "Gamma rays", "Neutrons"],
+        correct: 2,
+        explanation: "أشعة جاما هي النوع الوحيد من الإشعاع الكهرومغناطيسي من بين الخيارات المذكورة."
+      },
+      {
+        lecture: "Atomic Structure",
+        question: "What is background radiation?",
+        translation: "ما هو الإشعاع الخلفي؟",
+        options: ["Radiation from nuclear accidents", "Radiation from medical X-rays", "A constant source of ionizing radiation in the environment", "Radiation from the sun"],
+        correct: 2,
+        explanation: "الإشعاع الخلفي هو مصدر ثابت للإشعاع المؤين موجود في البيئة من مصادر طبيعية ومصنعة."
+      },
+      {
+        lecture: "Atomic Structure",
+        question: "What is a major contributor to terrestrial radiation?",
+        translation: "ما هو المساهم الرئيسي في الإشعاع الأرضي؟",
+        options: ["Potassium", "Carbon", "Oxygen", "Hydrogen"],
+        correct: 0,
+        explanation: "البوتاسيوم (خاصة النظير K-40) هو أحد المساهمين الرئييين في الإشعاع الأرضي الطبيعي."
+      },
+      {
+        lecture: "Atomic Structure",
+        question: "Which type of radiation can penetrate deeper into tissue before interacting?",
+        translation: "أي نوع من الإشعاع يمكنه اختراق الأنسجة بشكل أعمق قبل التفاعل؟",
+        options: ["Alpha particles", "Beta particles", "Gamma and X-rays", "Neutrons"],
+        correct: 2,
+        explanation: "أشعة جاما والأشعة السينية لها قدرة اختراق عالية جداً مقارنة بالإشعاعات الأخرى."
+      },
+      {
+        lecture: "Atomic Structure",
+        question: "What is the charge of an alpha particle?",
+        translation: "ما هي شحنة جسيم ألفا؟",
+        options: ["Positive", "Negative", "Neutral", "It varies"],
+        correct: 0,
+        explanation: "جسيم ألفا له شحنة موجبة (+2) لأنه يحتوي على بروتونين."
+      },
+      {
+        lecture: "Atomic Structure",
+        question: "What is the range of beta particles in air?",
+        translation: "ما هو مدى جسيمات بيتا في الهواء؟",
+        options: ["About 1 cm", "A few meters", "About 10 cm", "About 10 meters"],
+        correct: 1,
+        explanation: "مدى جسيمات بيتا في الهواء يصل الى عدة أمتار، وهو أطول بكثير من مدى جسيمات ألفا."
+      },
+      {
+        lecture: "Atomic Structure",
+        question: "Which of the following is NOT a source of background radiation?",
+        translation: "أي مما يلي ليس مصدراً للإشعاع الخلفي؟",
+        options: ["Cosmic radiation", "Terrestrial radiation", "Nuclear power plants", "Human-made sources"],
+        correct: 2,
+        explanation: "محطات الطاقة النووية ليست جزءاً من الإشعاع الخلفي الطبيعي، بل هي مصادر صناعية يمكن التحكم بها."
+      },
+      {
+        lecture: "Atomic Structure",
+        question: "What is the primary interaction of directly ionizing radiation?",
+        translation: "ما هو التفاعل الأساسي للإشعاع المؤين المباشر؟",
+        options: ["Interaction with neutrons", "Interaction with atomic electrons", "Interaction with electromagnetic fields", "Interaction with the Earth's atmosphere"],
+        correct: 1,
+        explanation: "الإشعاع المؤين المباشر يتفاعل بشكل أساسي مع الإلكترونات الذرية مسبباالتأين."
+      },
+      {
+        lecture: "Atomic Structure",
+        question: "Which of the following is an example of a human-made source of ionizing radiation?",
+        translation: "أي من التالي مثال على مصدر من صنع الإنسان للاشعاع المؤين؟",
+        options: ["Cosmic radiation", "Terrestrial radiation", "X-rays", "Solar flares"],
+        correct: 2,
+        explanation: "الأشعة السينية هي مصدر من صنع الإنسان يستخدم في التطبيقات الطبية والصناعية."
+      },
+      {
+        lecture: "Atomic Structure",
+        question: "What is the main characteristic of alpha particles?",
+        translation: "ما هي الخاصية الرئيسية لجسيمات ألفا؟",
+        options: ["They are electrons", "They are electrically neutral", "They consist of two protons and two neutrons", "They have a long range in air"],
+        correct: 2,
+        explanation: "جسيمات ألفا تتكون من بروتونين ونيوترونين، مما يجعلها مطابقة لنواة الهيليوم."
+      },
+      {
+        lecture: "Atomic Structure",
+        question: "What is the main source of terrestrial radiation?",
+        translation: "ما هو المصدر الرئيسي للإشعاع الارضي؟",
+        options: ["The sun", "The Earth's crust", "Nuclear weapons", "Medical equipment"],
+        correct: 1,
+        explanation: "قشرة الأرض هي المصدر الرئيسي للإشعاع الأرضي بسبب وجود عناصر مشعة طبيعية فيها."
+      },
+      {
+        lecture: "Atomic Structure",
+        question: "Which type of radiation is produced during collisions with atomic nuclei?",
+        translation: "أي نوع من الإشعاع ينتج خلال الاصطدامات مع النوى الذرية؟",
+        options: ["Alpha particles", "Beta particles", "Neutrons", "Gamma rays"],
+        correct: 2,
+        explanation: "النيوترونات تنتج عادة من تفاعلات نووية تشمل اصطدامات مع النوى الذرية."
+      },
+      {
+        lecture: "Atomic Structure",
+        question: "What is the charge of gamma rays and X-rays?",
+        translation: "ما هي شحنة اشعة جاما والأشعة السينية؟",
+        options: ["Positive", "Negative", "Neutral", "Variable"],
+        correct: 2,
+        explanation: "أشعة جاما والأشعة السينية هي موجات كهرومغناطيسية وبالتالي لا تحمل شحنة كهربائية."
+      },
+      {
+        lecture: "Atomic Structure",
+        question: "Which of the following is NOT a type of ionizing radiation?",
+        translation: "أي من التالي ليس نوعاً من الإشعاع المؤين؟",
+        options: ["Alpha particles", "Beta particles", "Visible light", "Gamma rays"],
+        correct: 2,
+        explanation: "الضوء المرئي ليس إشعاعاً مؤيناً لأن طاقة فوتوناته غير كافية لإحداث التأين."
+      },
+      {
+        lecture: "Atomic Structure",
+        question: "What is the main source of cosmic radiation?",
+        translation: "ما هو المصدر الرئيسي لاإشعاع الكوني؟",
+        options: ["The Earth's crust", "The sun and other celestial events", "Nuclear power plants", "Medical X-rays"],
+        correct: 1,
+        explanation: "الإشعاع الكوني يأتي من الشمس والأحداث الفلكية الأخرى في الفضاء الخارجي."
+      }
+        ]
+      },
+      {
+        id: 2,
+        title: "Measurements of Radiation Dose",
+        titleAr: "قياسات جرعة الإشعاع",
+        icon: "📊",
+        questionsCount: 86,
+        questions: [
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "Which of the following can increase the temperature of matter?",
+            translation: "أي مما يلي يمكن أن يزيد من درجة حرارة المادة؟",
+            options: ["(a) Nuclear radiation", "(b) Heat", "(c) Ionization", "(d) Radioactive decay"],
+            correct: 0,
+            explanation: "الإشعاع النووي يمكن أن يزيد من درجة حرارة المادة من خلال نقل الطاقة."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "What is the primary difference between heat and nuclear radiation in terms of detection by the body?",
+            translation: "ما هو الفرق الأساسي بين الحرارة والإشعاع النووي من حيث كشفه بواسطة الجسم؟",
+            options: ["(a) The body can detect both.", "(b) The body can detect neither.", "(c) The body can detect heat but not nuclear radiation.", "(d) The body can detect nuclear radiation but not heat."],
+            correct: 2,
+            explanation: "الجسم يمكنه الشعور بالحرارة لكنه لا يستطيع الشعور بالإشعاع النووي مباشرة."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "What is the term for the process where radiation removes electrons from atoms?",
+            translation: "ما هو المصطلح للعملية التي يزيل فيها الإشعاع الإلكترونات من الذرات؟",
+            options: ["(a) Absorption", "(b) Decay", "(c) Ionization", "(d) Exposure"],
+            correct: 2,
+            explanation: "التأين (Ionization) هو العملية التي يتم فيها إزالة الإلكترونات من الذرات بواسطة الإشعاع."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "Which type of radiation is NOT considered ionizing radiation?",
+            translation: "أي نوع من الإشعاع لا يُعتبر إشعاعاً مؤيناً؟",
+            options: ["(a) Alpha", "(b) Beta", "(c) Gamma", "(d) X-ray"],
+            correct: 3,
+            explanation: "جميع الخيارات (ألفا وبيتا وجاما) هي أنواع من الإشعاع المؤين. السؤال به خطأ لأن الأشعة السينية أيضاً إشعاع مؤين."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "What is the unit used to measure the equivalent dose of radiation?",
+            translation: "ما هي الوحدة المستخدمة لقياس الجرعة المكافئة من الإشعاع؟",
+            options: ["(a) Curie", "(b) Roentgen", "(c) Rem", "(d) Rad"],
+            correct: 2,
+            explanation: "Rem (Roentgen Equivalent Man) هي الوحدة التقليدية لقياس الجرعة المكافئة."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "What is measured in Becquerel?",
+            translation: "ماذا يُقاس بالبيكريل؟",
+            options: ["(a) Intensity of gamma rays", "(b) Radioactive material", "(c) Absorbed dose", "(d) Dose equivalent"],
+            correct: 1,
+            explanation: "البيكريل (Becquerel) يقيس النشاط الإشعاعي للمادة المشعة (عدد التحللات في الثانية)."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "What is the term for the radiation dose that enters the body?",
+            translation: "ما هو المصطلح لجرعة الإشعاع التي تدخل الجسم؟",
+            options: ["(a) Exposure dose", "(b) Absorbed dose", "(c) Equivalent dose", "(d) Decay rate"],
+            correct: 0,
+            explanation: "جرعة التعرض (Exposure dose) هي كمية الإشعاع التي يتعرض لها الجسم."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "What is the unit used to measure the intensity of gamma rays in air?",
+            translation: "ما هي الوحدة المستخدمة لقياس شدة أشعة جاما في الهواء؟",
+            options: ["(a) Rem", "(b) Gray", "(c) Roentgen", "(d) Becquerel"],
+            correct: 2,
+            explanation: "الرونتجن (Roentgen) يُستخدم لقياس التعرض للأشعة السينية وأشعة جاما في الهواء."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "What is the unit used to measure absorbed dose?",
+            translation: "ما هي الوحدة المستخدمة لقياس الجرعة الممتصة؟",
+            options: ["(a) Rem", "(b) Gray", "(c) Curie", "(d) Roentgen"],
+            correct: 1,
+            explanation: "الجراي(Gray) هي وحدة SI لقياس الجرعة الممتصة من الإشعاع."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "What is the source of energy that causes ionization?",
+            translation: "ما هو مصدر الطاقة الذي يسبب التأين؟",
+            options: ["(a) Heat", "(b) Nuclear radiation", "(c) Alpha particles", "(d) Beta particles"],
+            correct: 1,
+            explanation: "الإشعاع النووي هو مصدر الطاقة الذي يسبب التأين عموماً."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "What is another term for the decay rate of a radioactive isotope?",
+            translation: "ما هو المصطلح الآخر لمعدل تحلل نظير مشع؟",
+            options: ["(a) Exposure dose", "(b) Activity", "(c) Absorbed dose", "(d) Equivalent dose"],
+            correct: 1,
+            explanation: "النشاط (Activity) هو مصطلح آخر لمعدل تحلل النظير المشع."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "Which type of radiation is associated with the highest energy levels?",
+            translation: "أي نوع من الإشعاع يرتبط بأعلى مستويات الطاقة؟",
+            options: ["(a) Heat", "(b) Alpha", "(c) Beta", "(d) Gamma"],
+            correct: 3,
+            explanation: "أشعة جاما عادة ما تكون لها أعلى مستويات الطاقة بين أنواع الإشعاع المختلفة."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "What happens to the radiation energy during the ionization process?",
+            translation: "ماذا يحدث لطاقة الإشعاع خلال عملية التأين؟",
+            options: ["(a) It is lost to the medium.", "(b) It is converted to heat.", "(c) It is reflected.", "(d) It is amplified."],
+            correct: 0,
+            explanation: "طاقة الإشعاع تُفقد للوسط المحيط خلال عملية التأين."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "Which of the following is NOT a type of ionizing radiation?",
+            translation: "أي مما يلي ليس نوعاً من الإشعاع المؤين؟",
+            options: ["(a) Alpha", "(b) Beta", "(c) Gamma", "(d) Infrared"],
+            correct: 3,
+            explanation: "الأشعة تحت الحمراء (Infrared) ليست إشعاع مؤيناً بل هو إشعاع غير مؤين."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "What is the primary purpose of measuring radiation dose?",
+            translation: "ما هو الهدف الأساسي من قياس جرعة الإشعاع؟",
+            options: ["(a) To measure the temperature of a substance", "(b) To detect the presence of radioactive material", "(c) To assess the potential for biological damage", "(d) To measure the speed of light"],
+            correct: 2,
+            explanation: "الهدف الأساسي من قياس جرعة الإشعاع هو تقييم احتمالية حدوث ضرر بيولوجي."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "Which unit is used to measure the decay rate of radioactive material?",
+            translation: "أي وحدة تُستخدم لقياس معدل تحلل المادة المشعة؟",
+            options: ["a) Roentgen (R)", "b) Curie (Ci)", "c) Becquerel (Bq)", "d) Both b and c"],
+            correct: 3,
+            explanation: "كل من الكوري (Ci) والبيكريل (Bq) يُستخدمان لقياس النشاط الإشعاعي (معدل التحلل)."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "What does 'dpm' stand for in the context of radioactive decay?",
+            translation: "ماذا يعني 'dpm' في سياق التحلل الإشعاعي؟",
+            options: ["a) Dose per minute", "b) Decay per meter", "c) Decays per minute", "d) Dose per meter"],
+            correct: 2,
+            explanation: "dpm تعني Decays per minute أي عدد التحللات في الدقيقة الواحدة."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "How many decays per minute are equivalent to 1 Becquerel (Bq)?",
+            translation: "كم تحلل في الدقيقة يعادل 1 بيكريل (Bq)؟",
+            options: ["a) 1", "b) 60", "c) 2.2 x 10^12", "d) It depends on the material"],
+            correct: 1,
+            explanation: "1 بيكريل = 1 تحلل/ثانية = 60 تحلل/دقيقة."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "Which of the following is the SI unit for radioactivity (activity)?",
+            translation: "أي من التالي هو وحدة SI للنشاط الإشعاعي؟",
+            options: ["a) Curie (Ci)", "b) Roentgen (R)", "c) Becquerel (Bq)", "d) dpm"],
+            correct: 2,
+            explanation: "البيكريل (Bq) هو وحدة SI القياسية للنشاط الإشعاعي."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "What does the activity of a radioactive source depend on?",
+            translation: "على ماذا يعتمد نشاط المصدر المشع؟",
+            options: ["a) The type of decay", "b) The energy of the decay products", "c) The number of decays per second", "d) All of the above"],
+            correct: 2,
+            explanation: "نشاط المصدر المشع يعتمد على عدد التحللات في الثانية الواحدة."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "What is exposure dose a measure of?",
+            translation: "ماذا تقيس جرعة التعرض؟",
+            options: ["a) The number of unstable atoms", "b) The number of ion pairs formed in air", "c) The energy of the emitted radiation", "d) The mass of the radioactive material"],
+            correct: 1,
+            explanation: "جرعة التعرض تقيس عدد أزواج الأيونات المتكونة في الهواء."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "Which type of radiation is exposure dose primarily measured for?",
+            translation: "لأي نوع من الإشعاع تُقاس جرعة التعرض بشكل أساسي؟",
+            options: ["a) Alpha particles", "b) Beta particles", "c) Gamma and X-rays", "d) Neutrons"],
+            correct: 2,
+            explanation: "جرعة التعرض تُقاس بشكل أساسي لاشعة جاما والأشعة السينية."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "What unit is used to measure exposure dose?",
+            translation: "ما هي الوحدة المستخدمة لقياس جرعة التعرض؟",
+            options: ["a) Curie (Ci)", "b) Becquerel (Bq)", "c) Roentgen (R)", "d) dpm"],
+            correct: 2,
+            explanation: "الرونتجن (R) هي الوحدة التقليدية لقياس جرعة التعرض."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "What happens when X-rays and gamma rays pass through air?",
+            translation: "ماذا يحدث عندما تمر الأشعة السينية وأشعة جاما عبر الهواء؟",
+            options: ["a) They are absorbed by the air molecules", "b) They create free electrons through ionization", "c) They change the air's temperature", "d) They have no effect"],
+            correct: 1,
+            explanation: "الأشعة السينية وأشعة جاما تنتج إلكترونات من خلال عملية التأين عند مرورها بالهواء."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "What is the total electric charge (Q) on the ions produced in a given mass (m) of air called?",
+            translation: "ماذا تسمى الشحنة الكهربائية الكلية (Q) على الأيونات المنتجة في كتلة معينة (m) من الهواء؟",
+            options: ["a) Activity", "b) Decay rate", "c) Exposure (X)", "d) Dose"],
+            correct: 2,
+            explanation: "التعرض (Exposure X) هو الشحنة الكهربائية الكلية على الأيونات المنتجة في كتلة معينة من الهواء."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "Which unit is a large unit for measuring decay rate?",
+            translation: "أي وحدة هي وحدة كبيرة لقياس معدل التحلل؟",
+            options: ["a) Becquerel (Bq)", "b) Roentgen (R)", "c) Curie (Ci)", "d) dpm"],
+            correct: 2,
+            explanation: "الكوري (Ci) هي وحدة كبيرة لقياس معدل التحلل الإشعاعي."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "How many dpm are equivalent to 1 Curie (Ci)?",
+            translation: "كم تحلل في الدقيقة يعادل 1 كوري (Ci)؟",
+            options: ["a) 1", "b) 60", "c) 2.2 x 10^12", "d) 1000"],
+            correct: 2,
+            explanation: "1 كوري = 2.2 × 10^12 تحلل في الدقيقة."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "What does the activity of a radioactive source NOT depend on?",
+            translation: "على ماذا لا يعتمد نشاط المصدر المشع؟",
+            options: ["a) The number of decays per second", "b) The type of decay", "c) The energy of the decay products", "d) The mass of the radioactive material"],
+            correct: 2,
+            explanation: "نشاط المصدر المشع لا يعتمد على طاقة نواتج التحلل، بل يعتمد على عدد التحللات في الثانية."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "Exposure dose measures the number of ionization in:",
+            translation: "جرعة التعرض تقيس عدد التأينات في:",
+            options: ["a) Radioactive material", "b) Air", "c) Water", "d) Metal"],
+            correct: 1,
+            explanation: "جرعة التعرض تقيس عدد التأينات في الهواء على وجه التحديد."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "Which of the following is NOT a factor in determining the activity of a radioactive source?",
+            translation: "أي مما يلي ليس عاملاً في تحديد نشاط المصدر المشع؟",
+            options: ["a) The number of decays per second", "b) The type of decay", "c) The energy of the decay products", "d) The size of the source"],
+            correct: 2,
+            explanation: "طاقة نواتج التحلل لا تؤثر على نشاط المصدر، فالنشاط يعتمد فقط على عدد التحللات."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "The SI unit for exposure, X = Q/m, is measured in:",
+            translation: "وحدة SI للتعرض X = Q/m تُقاس بـ:",
+            options: ["a) Roentgen (R)", "b) Coulomb per kilogram (C/kg)", "c) Both a and b", "d) Gray (Gy)"],
+            correct: 1,
+            explanation: "وحدة SI للتعرض هي كولوم لكل كيلوجرام (C/kg)، بينما الرونتجن هي الوحدة التقليدية."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "Roentgen (R) is equivalent to:",
+            translation: "الرونتجن (R) يعادل:",
+            options: ["a) 1 J/kg", "b) 3.336 x 10^-10 C", "c) 2.58 x 10^-4 C/kg", "d) 100 rads"],
+            correct: 2,
+            explanation: "1 رونتجن = 2.58 × 10^-4 كولوم/كيلوجرام."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "If 1 cm³ of air under standard conditions (m = 0.001293 mg) absorbs radiation forming a charge of 1 esu (3.336 x 10-¹⁰ C), the exposure is approximately:",
+            translation: "إذا امتص 1 سم³ من الهواء في الظروف القياسية (m = 0.001293 mg) إشعاعاً مكوناً شحنة 1 esu (3.336 × 10⁻¹⁰ C)، فإن التعرض يكون تقريباً:",
+            options: ["a) 1 R", "b) 0.1 R", "c) 2.58 x 10⁻⁴ R", "d) 1 Gy"],
+            correct: 0,
+            explanation: "في هذه الظروف، التعرض يكون تقريباً 1 رونتجن."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "Absorbed dose measures:",
+            translation: "الجرعة الممتصة تقيس:",
+            options: ["a) Biological effects of radiation", "b) Energy absorbed per unit mass", "c) The amount of radiation emitted", "d) The type of radiation"],
+            correct: 1,
+            explanation: "الجرعة الممتصة تقيس الطاقة الممتصة لكل وحدة كتلة."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "The unit 'Rad' is a:",
+            translation: "وحدة 'راد' هي:",
+            options: ["a) Standard international unit", "b) Large unit", "c) Small US unit", "d) Unit for measuring exposure"],
+            correct: 2,
+            explanation: "الراد (Rad) هي وحدة أمريكية صغيرة لقياس الجرعة الممتصة."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "The unit 'Gray (Gy)' is a:",
+            translation: "وحدة 'جراي (Gy)' هي:",
+            options: ["a) Small US unit", "b) Unit for measuring exposure", "c) Standard international unit", "d) Unit for measuring biological effects"],
+            correct: 2,
+            explanation: "الجراي (Gy) هي وحدة SI القياسية الدولية لقياس الجرعة الممتصة."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "1 Gray (Gy) is equal to:",
+            translation: "1 جراي (Gy) يساوي:",
+            options: ["a) 100 rads", "b) 1 rad", "c) 1 J", "d) 1 J/cm³"],
+            correct: 0,
+            explanation: "1 جراي = 100 راد."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "The formula for absorbed dose is:",
+            translation: "صيغة الجرعة الممتصة هي:",
+            options: ["a) X = Q/m", "b) E = D x m", "c) 1 Gy = 100 rads", "d) All of the above"],
+            correct: 1,
+            explanation: "صيغة الجرعة الممتصة هي E = D × m حيث E هي الطاقة، D الجرعة، و m الكتلة."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "If a dose of 0.05 Gy is delivered, the energy absorbed by each gram of the patient is:",
+            translation: "إذا تم إيصال جرعة 0.05 Gy، فإن الطاقة الممتصة لكل جرام من المريض تكون:",
+            options: ["a) 0.05 J", "b) 0.05 x 10⁻³ J", "c) 0.05 x 10⁻⁶ J", "d) Cannot be determined"],
+            correct: 1,
+            explanation: "0.05 Gy = 0.05 J/kg = 0.05 × 10^-3 J/g."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "The mass (m) in the absorbed dose formula (E = D x m) is measured in:",
+            translation: "الكتلة (m) في صيغة الجرعة الممتصة (E = D × m) تُقاس بـ:",
+            options: ["a) Joules (J)", "b) Kilograms (kg)", "c) Grams (g)", "d) Roentgen (R)"],
+            correct: 1,
+            explanation: "الكتلة في صيغة الجرعة الممتصة تُقاس بالكيلوجرام (kg)."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "The energy (E) in the absorbed dose formula (E = D x m) is measured in:",
+            translation: "الطاقة (E) في صيغة الجرعة الممتصة (E = D × m) تُقاس بـ:",
+            options: ["a) Gray (Gy)", "b) Kilograms (kg)", "c) Joules (J)", "d) Rad (rad)"],
+            correct: 2,
+            explanation: "الطاقة في صيغة الجرعة الممتصة تُقاس بالجول (J)."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "The absorbed dose (D) in the formula E = D x m is measured in:",
+            translation: "الجرعة الممتصة (D) في الصيغة E = D × m تُقاس بـ:",
+            options: ["a) Joules (J)", "b) Kilograms (kg)", "c) Gray (Gy)", "d) Grams (g)"],
+            correct: 2,
+            explanation: "الجرعة الممتصة تقاس بوحدة جراي (Gy)."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "Which of the following is NOT a unit of absorbed dose?",
+            translation: "أي مما يلي ليس وحدة للجرعة الممتصة؟",
+            options: ["a) Rad", "b) Gray", "c) Roentgen", "d) Joule"],
+            correct: 2,
+            explanation: "الرونتجن (Roentgen) هي وحدة للتعرض وليست للجرعة الممتصة."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "What does the absorbed dose describe?",
+            translation: "ماذا تصف الجرعة الممتصة؟",
+            options: ["a) Biological effects of different radiations", "b) The amount of energy absorbed by an organism", "c) The type of radiation", "d) All of the above"],
+            correct: 1,
+            explanation: "الجرعة الممتصة تصف كمية الطاقة التي يمتصها الكائن الحي أو المادة."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "What is the conversion factor between Gray and Rad?",
+            translation: "ما هو عامل التحويل بين جراي وراد؟",
+            options: ["a) 1 Gray = 1 Rad", "b) 1 Gray = 10 Rads", "c) 1 Gray = 100 Rads", "d) 1 Rad = 100 Grays"],
+            correct: 2,
+            explanation: "1 جراي = 100 راد هو عامل التحويل بين الوحدتين."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "The amount of energy imparted to matter in a small volume is represented by:",
+            translation: "كمية الطاقة المنقولة للمادة في حجم صغير يُمثلها:",
+            options: ["a) D", "b) m", "c) E", "d) Gy"],
+            correct: 2,
+            explanation: "E ترمز للطاقة (Energy) المنقولة للمادة."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "The mass of the small volume in the absorbed dose formula is represented by:",
+            translation: "كتلة الحجم الصغيرة في صيغة الجرعة الممتصة يُمثلها:",
+            options: ["a) D", "b) m", "c) E", "d) Gy"],
+            correct: 1,
+            explanation: "m ترمز للكتلة (mass) في الصيغة."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "Which unit is larger, Gray or Rad?",
+            translation: "أي وحدة أكبر، جراي أم راد؟",
+            options: ["a) Rad", "b) Gray", "c) They are equal", "d) Cannot be determined"],
+            correct: 1,
+            explanation: "الجراي (Gray) أكبر من الراد، حيث 1 جراي = 100 راد."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "What is the unit of measurement for KERMA?",
+            translation: "ما هي وحدة قياس KERMA؟",
+            options: ["(a) rem", "(b) Sv", "(c) J/kg", "(d) Gy/s"],
+            correct: 2,
+            explanation: "KERMA تُقاس بوحدة الطاقة لكل وحدة كتلة، أي جول/كيلوجرام (J/kg)، والتي تعادل جراي (Gy)."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "What is the relationship between exposure and absorbed dose?",
+            translation: "ما هي العلاقة بين التعرض والجرعة الممتصة؟",
+            options: ["a) They are the same thing", "b) Exposure measures energy absorbed, absorbed dose measures biological effects", "c) Exposure is related to the charge produced, absorbed dose is energy absorbed per unit mass", "d) They are unrelated"],
+            correct: 2,
+            explanation: "التعرض يتعلق بالشحنة الكهربائية المنتجة في الهواء، بينما الجرعة الممتصة تقيس الطاقة الممتصة لكل وحدة كتلة."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "What does KERMA stand for?",
+            translation: "ماذا يعني KERMA؟",
+            options: ["(a) Kinetic Energy Released per unit Mass", "(b) Kinetic Energy Received per unit Mass", "(c) Kinetic Energy Released per unit Material", "(d) Kinetic Energy Received per unit Material"],
+            correct: 0,
+            explanation: "KERMA تعني الطاقة الحركية المنطلقة لكل وحدة كتلة (Kinetic Energy Released per unit Mass)."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "What does Equivalent dose measure?",
+            translation: "ماذا تقيس الجرعة المكافئة؟",
+            options: ["(a) The absorbed dose of radiation", "(b) The biological effect of ionizing radiation", "(c) The energy deposited per unit mass of tissue", "(d) The type and energy of the radiation"],
+            correct: 1,
+            explanation: "الجرعة المكافئة تقيس التأثير البيولوجي للإشعاع المؤين على الأنسجة الحية."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "What are the two units used to measure Equivalent dose?",
+            translation: "ما هما الوحدتان المستخدمتان لقياس الجرعة المكافئة؟",
+            options: ["(a) J/kg and Gy", "(b) rem and Gy", "(c) rem and Sv", "(d) Sv and J/kg"],
+            correct: 2,
+            explanation: "الوحدةان لقياس الجرعة المكافئة هما rem (وحدة تقليدية) و Sievert (وحدة SI)."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "What does 'rem' stand for?",
+            translation: "ماذا يعني 'rem'؟",
+            options: ["(a) Roentgen equivalent man", "(b) Roentgen energy mass", "(c) Radiation equivalent man", "(d) Radiation energy mass"],
+            correct: 0,
+            explanation: "rem تعني Roentgen equivalent man أي رونتجن مكافئ للإنسان."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "What is the SI unit for the biological effect of ionizing radiation?",
+            translation: "ما هي وحدة SI للتأثير البيولوجي للإشعاع المؤين؟",
+            options: ["(a) rem", "(b) Gy", "(c) J/kg", "(d) Sv"],
+            correct: 3,
+            explanation: "السيفرت (Sievert - Sv) هي وحدة SI للتأثير البيولوجي للإشعاع المؤين."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "What is the formula for Equivalent dose?",
+            translation: "ما هي صيغة الجرعة المكافئة؟",
+            options: ["(a) H = D x WR", "(b) D = H x WR", "(c) WR = H x D", "(d) H = D / WR"],
+            correct: 0,
+            explanation: "صيغة الجرعة المكافئة هي H = D × WR حيث H الجرعة المكافئة، D الجرعة الممتصة، و WR معامل الترجيح الإشعاعي."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "A radiation worker received a radiation dose of 25 mGy from x-rays. What is the equivalent dose?",
+            translation: "تلقى عامل إشعاع جرعة 25 mGy من الأشعة السينية. ما هي الجرعة المكافئة؟",
+            options: ["(a) 25 rem", "(b) 25 mSv", "(c) 25 Gy", "(d) 25 mGy"],
+            correct: 1,
+            explanation: "معامل الترجيح للأشعة السينية = 1، لذا H = 25 mGy × 1 = 25 mSv."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "What is the radiation weighting factor for x-rays?",
+            translation: "ما هو معامل الترجيح الإشعاعي للأشعة السينية؟",
+            options: ["(a) 1", "(b) 5", "(c) 10", "(d) 20"],
+            correct: 0,
+            explanation: "معامل الترجيح الإشعاعي للأشعة السينية يساوي 1."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "What is the radiation weighting factor for gamma rays?",
+            translation: "ما هو معامل الترجيح الإشعاعي لأشعة جاما؟",
+            options: ["(a) 1", "(b) 5", "(c) 10", "(d) 20"],
+            correct: 0,
+            explanation: "معامل الترجيح الإشعاعي لأشعة جاما يساوي 1."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "What is the radiation weighting factor for beta particles?",
+            translation: "ما هو عامل الترجيح الإشعاعي لجسيمات بيتا؟",
+            options: ["(a) 1", "(b) 5", "(c) 10", "(d) 20"],
+            correct: 0,
+            explanation: "معامل الترجيح الإشعاعي لجسيمات بيتا يساوي 1."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "What is the radiation weighting factor for slow neutrons?",
+            translation: "ما هو معامل الترجيح الإشعاعي للنيوترونات البطيئة؟",
+            options: ["(a) 1", "(b) 5", "(c) 10", "(d) 20"],
+            correct: 1,
+            explanation: "معامل الترجيح الإشعاعي للنيوترونات البطيئة يساوي 5."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "What is the radiation weighting factor for fast neutrons?",
+            translation: "ما هو معامل الترجيح الإشعاعي للنيوترونات السريعة؟",
+            options: ["(a) 1", "(b) 5", "(c) 10", "(d) 20"],
+            correct: 3,
+            explanation: "معامل الترجيح الإشعاعي للنيوترونات السريعة يساوي 20."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "What is the radiation weighting factor for alpha particles?",
+            translation: "ما هو معامل الترجيح الإشعاعي لجسيمات ألفا؟",
+            options: ["(a) 1", "(b) 5", "(c) 10", "(d) 20"],
+            correct: 3,
+            explanation: "معامل الترجيح الإشعاعي لجسيمات ألفا يساوي 20."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "KERMA is typically measured in which units?",
+            translation: "عادة ما تُقاس KERMA بأي وحدات؟",
+            options: ["(a) rem", "(b) Sv", "(c) J/kg and Gy", "(d) rem and Sv"],
+            correct: 2,
+            explanation: "KERMA تُقاس عادة بوحدات J/kg أو Gy (جراي)."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "Equivalent dose takes into account which of the following?",
+            translation: "الجرعة المكافئة تأخذ في الاعتبار أي مما يلي؟",
+            options: ["(a) Absorbed dose only", "(b) Type and energy of radiation only", "(c) Absorbed dose, type, and energy of radiation", "(d) Absorbed dose and type of radiation"],
+            correct: 2,
+            explanation: "الجرعة المكافئة تأخذ في الاعتبار الجرعة الممتصة ونوع الإشعاع وطاقته."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "Which unit is a smaller unit for measuring equivalent dose?",
+            translation: "أي وحدة هي وحدة أصغر لقياس الجرعة المكافئة؟",
+            options: ["(a) Sievert", "(b) Gray", "(c) rem", "(d) J/kg"],
+            correct: 2,
+            explanation: "rem هي الوحدة الأصغر، حيث 1 Sv = 100 rem."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "Which of the following is NOT a factor in determining equivalent dose?",
+            translation: "أي مما يلي ليس عاملاً في تحديد الجرعة المكافئة؟",
+            options: ["(a) Absorbed Dose", "(b) Radiation Weighting Factor", "(c) Type of Radiation", "(d) Mass of the irradiated material"],
+            correct: 3,
+            explanation: "كتلة المادة المشععة ليست عاملاً في تحديد الجرعة المكافئة، فالعوامل هي: الجرعة الممتصة ومعامل الترجيح ونوع الإشعاع."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "If a person receives a dose of 10 mGy from gamma rays, what is their equivalent dose?",
+            translation: "إذا تلقى شخص جرعة 10 mGy من أشعة جاما، ما هي جرعته المكافئة؟",
+            options: ["(a) 10 rem", "(b) 10 mSv", "(c) 10 Gy", "(d) 10 mGy"],
+            correct: 1,
+            explanation: "معامل الترجيح لأشعة جاما = 1، لذ H = 10 mGy × 1 = 10 mSv."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "If a person receives a dose of 10 mGy from alpha particles, what is their equivalent dose?",
+            translation: "إذا تلقى شخص جرعة 10 mGy من جسيمات ألفا، ما هي جرعته المكافئة؟",
+            options: ["(a) 200 mSv", "(b) 20 mSv", "(c) 10 mSv", "(d) 100 mSv"],
+            correct: 0,
+            explanation: "معامل الترجيح لجسيمات الفا = 20، لذا H = 10 mGy × 20 = 200 mSv."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "Which type of radiation has the highest weighting factor?",
+            translation: "أي نوع من الإشعاع له اعلى معامل ترجيح؟",
+            options: ["(a) X-rays", "(b) Beta particles", "(c) Alpha particles", "(d) Fast neutrons"],
+            correct: 2,
+            explanation: "جسيمات ألفا والنيوترونات السريعة لها أعلى معامل ترجيح = 20."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "Which type of radiation has the lowest weighting factor?",
+            translation: "أي نوع من الإشعاع له أقل معامل ترجيح؟",
+            options: ["(a) Slow neutrons", "(b) Alpha particles", "(c) Gamma rays", "(d) Fast neutrons"],
+            correct: 2,
+            explanation: "أشعة جاما والأشعة السينية وجسيمات بيتا لها أقل معامل ترجيح = 1."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "Effective Dose (ED) is a broader concept that considers:",
+            translation: "الجرعة الفعالة (ED) هي مفهوم أوسع يأخذ في الاعتبار:",
+            options: ["a) Only internal radiation exposures", "b) Only external radiation exposures", "c) Both internal and external radiation exposures", "d) Neither internal nor external radiation exposures"],
+            correct: 2,
+            explanation: "الجرعة الفعالة تأخذ في الاعتبار كلاً من التعرض الإشعاعي الداخلي والخارجي."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "What is the unit of measurement for the amount of radiation received?",
+            translation: "ما هي وحدة قياس كمية الإشعاع المستلمة؟",
+            options: ["a) mrem/time", "b) rem or Sievert", "c) rad", "d) mrem"],
+            correct: 1,
+            explanation: "كمية الإشعاع المستلمة تُقاس بوحدات rem أو Sievert (Sv)."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "Which of the following is also known as Dose Rate or intensity of radiation?",
+            translation: "أي مما يلي يُعرف أيضاً بمعدل الجرعة أو شدة الإشعاع؟",
+            options: ["a) Committed Equivalent Dose", "b) Effective Dose", "c) Period of time exposure", "d) Dose of Radiation"],
+            correct: 2,
+            explanation: "الفترة الزمنية للتعرض تُستخدم لحساب معدل الجرعة (الجرعة/الوقت) أو شدة الإشعاع."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "How is the biological effect of radiation related to the dose rate?",
+            translation: "كيف يرتبط التأثير البيولوجي للإشعاع بمعدل الجرعة؟",
+            options: ["a) Directly proportional", "b) Inversely proportional", "c) Not related", "d) Exponentially proportional"],
+            correct: 0,
+            explanation: "التأثير البيولوجي للإشعاع يرتبط بشكل طردي مع معدل الجرعة - كلما زاد معدل الجرعة زاد التأثير البيولوجي."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "The same equivalent dose of different types of radiation causes:",
+            translation: "نفس الجرعة المكافئة من أنواع مختلفة من الإشعاع تسببب:",
+            options: ["a) The same biological effect on the same tissue", "b) Different biological effects on the same tissue", "c) No biological effect", "d) Only physical effects"],
+            correct: 0,
+            explanation: "الجرعة المكافئة مصممة بحيث تعطي نفس التأثير البيولوجي للأنسجة نفسها بغض النظر عن نوع الإشعاع، وتلك بفضل معامل الترجيح الإشعاعي."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "Equivalent dose of certain radiation causes various effects in:",
+            translation: "الجرعة المكافئة لإشعاع معين تسبب تأثيرات متنوعة في:",
+            options: ["a) Only soft tissues", "b) Only solid tissues", "c) Different organs & tissues (soft & solid)", "d) No tissues"],
+            correct: 2,
+            explanation: "الجرعة المكافئة نفسها يمكن أن تسبب تأثيرات مختلفة في الأعضاء والأنسجة المختلفة (الرخوة والصلبة) لأن حساسية الأنسجة تختلف."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "Which factor does NOT influence the biological effectiveness of radiation?",
+            translation: "أي عامل لا يؤثر على الفعالية البيولوجية للإشعاع؟",
+            options: ["a) Dose of Radiation", "b) Period of time exposure", "c) Type of radiation", "d) Color of radiation"],
+            correct: 3,
+            explanation: "لون الإشعاع ليس عاملاً حقيقياً يؤثر على الفعالية البيولوجية. العوامل الحقيقية هي: جرعة الإشعاع، فترة التعرض، ونوع الاشعاع."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "What is the primary goal of radiation protection?",
+            translation: "ما هو الهدف الأساسي من الحماية من الإشعاع؟",
+            options: ["a) To increase radiation exposure", "b) To keep exposure within safe limits", "c) To ignore radiation exposure", "d) To eliminate all radiation sources"],
+            correct: 1,
+            explanation: "الهدف الأساسي من الحماية من الإشعاع هو إبقاء التعرض للإشعاع ضمن الحدود الآمنة لحماية صحة الإنسان."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "What unit is used to measure the dose rate?",
+            translation: "ما هي الوحدة المستخدمة لقياس معدل الجرعة؟",
+            options: ["a) mrem", "b) rem", "c) mrem/time", "d) rad"],
+            correct: 2,
+            explanation: "معدل الجرعة يُقاس بوحدات الجرعة مقسومة على الوحدات، مثل mrem/time أو mSv/hour."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "Which type of dose is received over a long period of time?",
+            translation: "أي نوع من الجرعات يتم تلقيه على مدى فترة زمنية طويلة؟",
+            options: ["a) Acute dose", "b) Chronic dose", "c) High dose", "d) Low dose"],
+            correct: 1,
+            explanation: "الجرعة المزمنة (Chronic dose) هي التي يتم تلقيها على مدى فترة زمنية طويلة."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "Which type of dose is received over a short period of time?",
+            translation: "أي نوع من الجرعات يتم تلقيه على مدى فترة زمنية قصيرة؟",
+            options: ["a) Chronic dose", "b) Low dose", "c) Acute dose", "d) Moderate dose"],
+            correct: 2,
+            explanation: "الجرعة الحادة (Acute dose) هي التي يتم تلقيها على مدى فترة زمنية قصيرة."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "What does CED stand for?",
+            translation: "ماذا يعني CED؟",
+            options: ["a) Committed Effective Dose", "b) Committed Equivalent Dose", "c) Chronic Effective Dose", "d) Chronic Equivalent Dose"],
+            correct: 1,
+            explanation: "CED تعني Committed Equivalent Dose أي الجرعة المكافئة الملتزمة (المستقبلية)."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "What does ED stand for?",
+            translation: "ماذا يعني ED؟",
+            options: ["a) Equivalent Dose", "b) Effective Dose", "c) External Dose", "d) Exposure Dose"],
+            correct: 1,
+            explanation: "ED تعني Effective Dose أي الجرعة الفعالة التي تأخذ في الاعتبار حساسية الأنسجة المختلفة."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "Which of the following is NOT a factor affecting the biological effectiveness of radiation?",
+            translation: "أي مما يلي ليس عاملاً يؤثر على الفعالة البيولوجية للإشعاع؟",
+            options: ["a) Type of exposed tissue", "b) The source of radiation", "c) Dose of radiation", "d) Type of radiation"],
+            correct: 1,
+            explanation: "مصدر الإشعاع (أي جهاز أو مادة ينبعث منها) ليس عاملاً بيولوجياً مهماً. العوامل المهمة هي: نوع النسيج المعرض، جرعة الإشعاع، ونوع الإشعاع نفسه."
+          },
+          {
+            lecture: "Measurements of Radiation Dose",
+            question: "Which concept provides a more comprehensive assessment of the overall radiation risk to the whole body?",
+            translation: "أي مفهوم يوفر تقييماً أكثر شمولاً للاطر الإشعاعي الكلي على الجسم بأكمله؟",
+            options: ["a) Committed Equivalent Dose", "b) Absorbed Dose", "c) Effective Dose", "d) Dose Rate"],
+            correct: 2,
+            explanation: "الجرعة الفعالة (Effective Dose) توفر التقييم الأشمل لأنها تأخذ في الاعتبار نوع الإشعاع وحساسية جميع الأعضاء والأنسجة المختلفة في الجسم."
+          }
+        ]
+      },
+      {
+        id: 3,
+        title: "Principles of Radiological Protection",
+        titleAr: "مبادئ الحماية من الإشعاع",
+        icon: "🛡️",
+        questionsCount: 42,
+        questions: [
+          {
+            lecture: "Principles of Radiological Protection",
+            question: "Which of the following is NOT a fundamental principle of radiological protection?",
+            translation: "أي مما يلي ليس مبدأ أساسيا للحماية من الإشعاع؟",
+            options: ["a) Justification", "b) Dose limitation", "c) Optimization of protection", "d) Risk assessment"],
+            correct: 3,
+            explanation: "المبادئ الأساسية الثلاثة للحماية من الإشعاع في: التبرير، التحسين، وتحديد الجرعة. تقييم المخاطر ليس مبدأ أساسياً."
+          },
+          {
+            lecture: "Principles of Radiological Protection",
+            question: "What does the principle of Justification in radiation protection refer to?",
+            translation: "إلى ماذا يشير مبدأ التبرير في الحماية من الإشعاع؟",
+            options: ["a) The need to measure human dose uptake.", "b) The benefit of radiation exposure should outweigh the risk.", "c) Keeping doses as low as reasonably achievable.", "d) Setting legal dose limits."],
+            correct: 1,
+            explanation: "مبدأ التبرير يعني أن فائدة التعرض للإشعاع يجب أن تفوق المخاطر المحتملة."
+          },
+          {
+            lecture: "Principles of Radiological Protection",
+            question: "What does ALARA stand for in the context of radiation protection?",
+            translation: "ماذا يعني ALARA في سياق الحماية من الإشعاع؟",
+            options: ["a) As Low As Radiation Allows", "b) Always Limit All Radiation Areas", "c) As Low As Reasonably Achievable", "d) Avoid Large Amounts of Radiation"],
+            correct: 2,
+            explanation: "ALARA تعني As Low As Reasonably Achievable أي إبقاء الجرعة منخفضة بقدر ما هو معقول تحقيقه."
+          },
+          {
+            lecture: "Principles of Radiological Protection",
+            question: "Optimization in radiation protection aims to:",
+            translation: "يهدف التحسين في الحماية من الإشعاع إلى:",
+            options: ["a) Eliminate all radiation exposure.", "b) Make the system of protection as effective as possible.", "c) Set legal dose limits for workers.", "d) Justify the use of radiation."],
+            correct: 1,
+            explanation: "مبدأ التحسين يهدف إلى جعل نظام الحماية فعالاً قدر الإمكان دون إلغاء التعرض الإشعاعي تماماً."
+          },
+          {
+            lecture: "Principles of Radiological Protection",
+            question: "Which of the following is an example of justification in radiation protection?",
+            translation: "أي مما يلي مثال على التبرير في الحماية من الإشعاع؟",
+            options: ["a) Refusing an X-ray after a bone fracture.", "b) Decontaminating contaminated areas.", "c) Setting legal dose limits.", "d) Keeping doses ALARA."],
+            correct: 0,
+            explanation: "رفض إجراء أشعة سينية بعد كسر في العظم يُعد مثالاً على التبرير - حيث يتم تقييم ما إذا كانت الفائدة تفوق المخاطر."
+          },
+          {
+            lecture: "Principles of Radiological Protection",
+            question: "What is the primary goal of dose limitation?",
+            translation: "ما هو الهدف الأساسي من تحديد الجرعة؟",
+            options: ["a) To eliminate all radiation exposure.", "b) To ensure that deterministic effects are not produced.", "c) To optimize the system of protection.", "d) To keep doses ALARA."],
+            correct: 1,
+            explanation: "الهدف الأساسي من تحديد الجرعة هو ضمان عدم حدوث التأثيرات الحتمية (Deterministic effects)."
+          },
+          {
+            lecture: "Principles of Radiological Protection",
+            question: "What type of effects are dose limits primarily designed to prevent?",
+            translation: "أي نوع من التأثيرات صُممت حدود الجرعة لمنعه بشكل أساسي؟",
+            options: ["a) Stochastic effects", "b) Genetic effects", "c) Deterministic effects", "d) Psychological effects"],
+            correct: 2,
+            explanation: "حدود الجرعة مصممة بشكل أساسي لمنع التأثيرات الحتمية (Deterministic effects) التي لها عتبة جرعة محددة."
+          },
+          {
+            lecture: "Principles of Radiological Protection",
+            question: "Which of the following is an example of optimization?",
+            translation: "أي مما يلي مثال على التحسين؟",
+            options: ["a) Setting legal dose limits.", "b) Using appropriate shielding.", "c) Justifying the use of radiation.", "d) Avoiding all radiation exposure."],
+            correct: 1,
+            explanation: "استخدام الحماية المناسبة (Shielding) هو مثال على التحسين لجعل نظام الحماية أكثر فعالية."
+          },
+          {
+            lecture: "Principles of Radiological Protection",
+            question: "Who are legal dose limits designed to protect?",
+            translation: "من هم الأشخاص الذين صُممت حدود الجرعة القانونية لحمايتهم؟",
+            options: ["a) Only workers", "b) Only members of the public", "c) Workers and members of the public", "d) Only patients"],
+            correct: 2,
+            explanation: "حدود الجرعة القانونية مصممة لحماية كل من العاملين وأفراد الجمهور."
+          },
+          {
+            lecture: "Principles of Radiological Protection",
+            question: "What is the relationship between dose and deterministic effects?",
+            translation: "ما هي العلاقة بين الجرعة والتأثيرات الحتمية؟",
+            options: ["a) Deterministic effects are likely at any dose.", "b) Deterministic effects are prevented by dose limitation.", "c) Deterministic effects are unrelated to dose.", "d) Deterministic effects are only caused by stochastic effects."],
+            correct: 1,
+            explanation: "التأثيرات الحتمية يمكن منعها من خلال تحديد الجرعة لأنها لا تحدث إلا فوق عتبة جرعة معينة."
+          },
+          {
+            lecture: "Principles of Radiological Protection",
+            question: "What is the primary goal of radiation protection?",
+            translation: "ما هو الهدف الأساسي من الحماية من الإشعاع؟",
+            options: ["a) To eliminate all radiation exposure.", "b) To reduce expected dose.", "c) To increase the use of radiation.", "d) To measure the amount of radiation."],
+            correct: 1,
+            explanation: "الهدف الأساسي من الحماية من الإشعاع هو تقليل الجرعة المتوقعة إلى أدنى مستوى معقول."
+          },
+          {
+            lecture: "Principles of Radiological Protection",
+            question: "Which principle focuses on the necessity of radiation exposure?",
+            translation: "أي مبدأ يركز على ضرورة التعرض للإشعاع؟",
+            options: ["a) Optimization", "b) Dose limitation", "c) Justification", "d) ALARA"],
+            correct: 2,
+            explanation: "مبدأ التبرير (Justification) يركز على ضرورة ومبرر التعرض للإشعاع."
+          },
+          {
+            lecture: "Principles of Radiological Protection",
+            question: "What is the purpose of keeping doses ALARA?",
+            translation: "ما هو الغرض من إبقاء الجرعات ALARA؟",
+            options: ["a) To eliminate all radiation exposure.", "b) To ensure deterministic effects are not produced.", "c) To reduce the magnitude of doses and the number of people exposed.", "d) To set legal dose limits."],
+            correct: 2,
+            explanation: "الغرض من ALARA هو تقليل مقدار الجرعات وعدد الأشخاص المعرضين للإشعاع."
+          },
+          {
+            lecture: "Principles of Radiological Protection",
+            question: "What is the relationship between stochastic effects and dose limits?",
+            translation: "ما هي العلاقة بين التأثيرات العشوائية وحدود الجرعة؟",
+            options: ["a) Dose limits are designed to prevent stochastic effects.", "b) Dose limits aim to keep the probability of stochastic effects reasonably low.", "c) Stochastic effects are not related to dose limits.", "d) Dose limits only apply to deterministic effects."],
+            correct: 1,
+            explanation: "حدود الجرعة تهدف إلى إبقاء احتمالية حدوث التأثيرات العشوائية (Stochastic effects) منخفضة بشكل معقول."
+          },
+          {
+            lecture: "Principles of Radiological Protection",
+            question: "Which of the following is NOT a factor considered in optimization?",
+            translation: "أي مما يلي ليس عاملاً يُؤخذ بالاعتبار في التحسين؟",
+            options: ["a) The magnitude of doses", "b) The number of people exposed", "c) Legal dose limits", "d) The type of radiation source"],
+            correct: 2,
+            explanation: "حدود الجرعة القانونية ليست عاملاً في التحسين - فالتحسين يركز على مقدار الجرعات وعدد الأشخاص المعرضين ونوع المصدر الإشعاعي."
+          },
+          {
+            lecture: "Principles of Radiological Protection",
+            question: "What is the occupational limit for effective dose, averaged over defined periods of 5 years?",
+            translation: "ما هو الحد المهني للجرعة الفعالة، محسوباً كمتوسط على فترات محددة من 5 سنوات؟",
+            options: ["(a) 1 mSv", "(b) 15 mSv", "(c) 20 mSv", "(d) 500 mSv"],
+            correct: 2,
+            explanation: "الحد المهني للجرعة الفعالة هو 20 mSv كمتوسط على فترات 5 سنوات للعاملين في المجال الإشعاعي."
+          },
+          {
+            lecture: "Principles of Radiological Protection",
+            question: "What is the public limit for effective dose in a year?",
+            translation: "ما هو حد الجمهور للجرعة الفعالة في السنة؟",
+            options: ["(a) 1 mSv", "(b) 15 mSv", "(c) 20 mSv", "(d) 500 mSv"],
+            correct: 0,
+            explanation: "حد الجرعة الفعالة لأفراد الجمهور هو 1 mSv في السنة، وهو أقل بكثير من حد العاملين."
+          },
+          {
+            lecture: "Principles of Radiological Protection",
+            question: "What is the annual equivalent dose limit for the lens of the eye for occupational exposure?",
+            translation: "ما هو الحد السنوي للجرعة المكافئة لعدسة العين للتعرض المهني؟",
+            options: ["(a) 1 mSv", "(b) 15 mSv", "(c) 150 mSv", "(d) 500 mSv"],
+            correct: 2,
+            explanation: "الحد السنوي للجرعة المكافئة لعدسة العين للعاملين هو 150 mSv، لأن العين من الأعضاء الحساسة للإشعاع."
+          },
+          {
+            lecture: "Principles of Radiological Protection",
+            question: "What is the annual equivalent dose limit for the skin for occupational exposure?",
+            translation: "ما هو الحد السنوي للجرعة المكافئة للجلد للتعرض المهني؟",
+            options: ["(a) 15 mSv", "(b) 50 mSv", "(c) 150 mSv", "(d) 500 mSv"],
+            correct: 3,
+            explanation: "الحد السنوي للجرعة المكافئة للجلد للعاملين هو 500 mSv."
+          },
+          {
+            lecture: "Principles of Radiological Protection",
+            question: "What is the annual equivalent dose limit for the skin for public exposure?",
+            translation: "ما هو الحد السنوي للجرعة المكافئة للجلد للتعرض العام؟",
+            options: ["(a) 15 mSv", "(b) 50 mSv", "(c) 150 mSv", "(d) 500 mSv"],
+            correct: 1,
+            explanation: "الحد السنوي للجرعة المكافئة للجلد لأفراد الجمهور هو 50 mSv."
+          },
+          {
+            lecture: "Principles of Radiological Protection",
+            question: "What is the annual equivalent dose limit for hands and feet for occupational exposure?",
+            translation: "ما هو الحد السنوي للجرعة المكافئة لليدين والقدمين للتعرض المهني؟",
+            options: ["(a) 15 mSv", "(b) 50 mSv", "(c) 150 mSv", "(d) 500 mSv"],
+            correct: 3,
+            explanation: "الحد السنوي للجرعة المكافئة لليدين والقدمين للعاملين هو 500 mSv."
+          },
+          {
+            lecture: "Principles of Radiological Protection",
+            question: "What is the annual equivalent dose limit for hands and feet for public exposure?",
+            translation: "ما هو الحد السنوي للجرعة المكافئة لليدين والقدمين للتعرض العام؟",
+            options: ["(a) 15 mSv", "(b) 50 mSv", "(c) 150 mSv", "(d) 500 mSv"],
+            correct: 1,
+            explanation: "الحد السنوي للجرعة المكافئة لليدين والقدمين لأفراد الجمهور هو 50 mSv."
+          },
+          {
+            lecture: "Principles of Radiological Protection",
+            question: "Which factor can a radiology technician use to limit exposure to penetrating radiation?",
+            translation: "أي عامل يمكن لفني الأشعة استخدامه للحد من التعرض للإشعاع النافذ؟",
+            options: ["(a) Time", "(b) Distance", "(c) Shielding", "(d) All of the above"],
+            correct: 3,
+            explanation: "جميع العوامل الثلاثة (الوقت، المسافة، والحماية) يمكن استخدامها للحد من التعرض للإشعاع."
+          },
+          {
+            lecture: "Principles of Radiological Protection",
+            question: "During radiography, why is the time of exposure kept to a minimum?",
+            translation: "أثناء التصوير الإشعاعي، لماذا يُبقى وقت التعرض عند الحد الأدنى؟",
+            options: ["(a) To reduce motion blur", "(b) To increase image quality", "(c) To reduce patient dose", "(d) Both a and c"],
+            correct: 3,
+            explanation: "يُبقى وقت التعرض عند الحد الأدنى لتقليل ضبابية الحركة وتقليل جرعة المريض."
+          },
+          {
+            lecture: "Principles of Radiological Protection",
+            question: "During fluoroscopy, why should the time of exposure be kept to a minimum?",
+            translation: "أثناء التنظير الفلوري، لماذا يجب أن يُبقى وقت التعرض عند الحد الأدنى؟",
+            options: ["(a) To reduce motion blur", "(b) To increase image quality", "(c) To reduce patient and personnel exposure", "(d) Both a and c"],
+            correct: 2,
+            explanation: "في التنظير الفلوري، يجب تقليل وقت التعرض لتقليل تعرض المريض والعاملين للإشعاع."
+          },
+          {
+            lecture: "Principles of Radiological Protection",
+            question: "How does distance affect exposure rate from a radiation source?",
+            translation: "كيف تؤثر المسافة على معدل التعرض من مصدر إشعاعي؟",
+            options: ["(a) It increases linearly", "(b) It decreases linearly", "(c) It decreases by the inverse of the distance squared", "(d) It has no effect"],
+            correct: 2,
+            explanation: "معدل التعرض ينخفض بمقلوب مربع المسافة (قانون التربيع العكسي) - مضاعفة المسافة تقلل التعرض إلى الربع."
+          },
+          {
+            lecture: "Principles of Radiological Protection",
+            question: "What material is commonly used for shielding in diagnostic radiology?",
+            translation: "ما هي المادة الشائع استخدامها للحماية في الأشعة التشخيصية؟",
+            options: ["(a) Aluminum", "(b) Lead", "(c) Concrete", "(d) Both b and c"],
+            correct: 3,
+            explanation: "الرصاص والخرسانة كلاهما يُستخدم للحماية في الأشعة التشخيصية."
+          },
+          {
+            lecture: "Principles of Radiological Protection",
+            question: "What is the term for a mass of absorbing material placed around a source to reduce radiation?",
+            translation: "ما هو المصطلح لكتلة من المادة الماصة توضع حول المصدر لتقليل الإشعاع؟",
+            options: ["(a) Time", "(b) Distance", "(c) Shielding", "(d) Exposure rate"],
+            correct: 2,
+            explanation: "الحماية (Shielding) هي المصطلح للمادة الماصة التي توضع لتقليل الإشعاع."
+          },
+          {
+            lecture: "Principles of Radiological Protection",
+            question: "What is the primary purpose of shielding in diagnostic radiology?",
+            translation: "ما هو الغرض الأساسي من الحماية في الأشعة التشخيصية؟",
+            options: ["(a) To increase image quality", "(b) To reduce radiation to a safe level", "(c) To speed up the procedure", "(d) To make the equipment more durable"],
+            correct: 1,
+            explanation: "الغرض الأساسي من الحماية هو تقليل الإشعاع إلى مستوى آمن للإنسان."
+          },
+          {
+            lecture: "Principles of Radiological Protection",
+            question: "Which of the following is NOT a factor in dose uptake control?",
+            translation: "أي مما يلي ليس عاملاً في التحكم بامتصاص الجرعة؟",
+            options: ["(a) Time", "(b) Distance", "(c) Shielding", "(d) Patient cooperation"],
+            correct: 3,
+            explanation: "تعاون المريض ليس عاملاً في التحكم بامتصاص الجرعة. العوامل الثلاثة الأساسية هي: الوقت، المسافة، والحماية."
+          },
+          {
+            lecture: "Principles of Radiological Protection",
+            question: "What is the unit for effective dose?",
+            translation: "ما هي وحدة الجرعة الفعالة؟",
+            options: ["(a) mSv", "(b) mGy", "(c) Sv", "(d) Both a and c"],
+            correct: 3,
+            explanation: "الجرعة الفعالة تُقاس بوحدات السيفرت (Sv) أو ميلي سيفرت (mSv)."
+          },
+          {
+            lecture: "Principles of Radiological Protection",
+            question: "What is the main goal when using time, distance, and shielding?",
+            translation: "ما هو الهدف الرئيسي عند استخدام الوقت والمسافة والحماية؟",
+            options: ["(a) To increase image quality", "(b) To reduce radiation exposure", "(c) To speed up the procedure", "(d) To make the equipment more efficient"],
+            correct: 1,
+            explanation: "الهدف الرئيسي من استخدام الوقت والمسافة والحماية هو تقليل التعرض للإشعاع."
+          },
+          {
+            lecture: "Principles of Radiological Protection",
+            question: "Which of the following is NOT a type of limit mentioned?",
+            translation: "أي مما يلي ليس نوعاً من الحدود المذكورة؟",
+            options: ["(a) Effective dose", "(b) Deterministic limits", "(c) Stochastic limits", "(d) Therapeutic limits"],
+            correct: 3,
+            explanation: "الحدود العلاجية (Therapeutic limits) ليست من أنواع حدود الجرعة المذكورة في الحماية الإشعاعية."
+          },
+          {
+            lecture: "Principles of Radiological Protection",
+            question: "During radiography, what is the primary reason for keeping the time of exposure to a minimum?",
+            translation: "أثناء التصوير الإشعاعي، ما السبب الرئيسي لإبقاء وقت التعرض عند الحد الأدنى؟",
+            options: ["a) To increase image contrast", "b) To reduce motion blur", "c) To enhance image sharpness", "d) To decrease patient dose"],
+            correct: 3,
+            explanation: "السبب الرئيسي هو تقليل جرعة المريض، مع فائدة إضافية في تقليل ضبابية الحركة."
+          },
+          {
+            lecture: "Principles of Radiological Protection",
+            question: "What principle governs the relationship between distance and exposure rate from a radiation source?",
+            translation: "ما المبدأ الذي يحكم العلاقة بين المسافة ومعدل التعرض من مصدر إشعاعي؟",
+            options: ["a) Direct proportionality", "b) Inverse proportionality", "c) Inverse square law", "d) Linear relationship"],
+            correct: 2,
+            explanation: "قانون التربيع العكسي (Inverse square law) يحكم العلاقة - شدة الإشعاع تتناسب عكسياً مع مربع المسافة."
+          },
+          {
+            lecture: "Principles of Radiological Protection",
+            question: "What is the primary purpose of shielding in diagnostic radiology?",
+            translation: "ما الغرض الأساسي من الحماية في الأشعة التشخيصية؟",
+            options: ["a) To increase image brightness", "b) To reduce patient exposure", "c) To reduce radiation to a safe level for humans", "d) To improve image quality"],
+            correct: 2,
+            explanation: "الغرض الأساسي من الحماية هو تقليل الإشعاع إلى مستوى آمن للبشر (المرضى والعاملين)."
+          },
+          {
+            lecture: "Principles of Radiological Protection",
+            question: "Which material is most commonly used for shielding in diagnostic radiology?",
+            translation: "ما المادة الأكثر شيوعاً للحماية في الأشعة التشخيصية؟",
+            options: ["a) Aluminum", "b) Concrete", "c) Lead", "d) Steel"],
+            correct: 2,
+            explanation: "الرصاص (Lead) هو المادة الأكثر شيوعاً للحماية في الأشعة التشخيصية بسبب كثافته العالية."
+          },
+          {
+            lecture: "Principles of Radiological Protection",
+            question: "In fluoroscopy, why is the time of exposure kept to a minimum?",
+            translation: "في التنظير الفلوري، لماذا يُبقى وقت التعرض عند الحد الأدنى؟",
+            options: ["a) To improve image resolution", "b) To reduce patient and personnel exposure", "c) To increase image contrast", "d) To decrease the cost of the procedure"],
+            correct: 1,
+            explanation: "اي التنظير الفلوري، يُبقى وقت التعرض عند الحد الأدنى لتقليل تعرض المريض والعاملين للإشعاع."
+          },
+          {
+            lecture: "Principles of Radiological Protection",
+            question: "What is the relationship between HVL and TVL?",
+            translation: "ما هي العلاقة بين HVL و TVL؟",
+            options: ["(a) TVL = 2.3 HVL", "(b) TVL = 3.3 HVL", "(c) HVL = 3.3 TVL", "(d) HVL = 2.3 TVL"],
+            correct: 1,
+            explanation: "العلاقة بين طبقة نصف القيمة وطبقة عُشر القيمة هي: TVL = 3.3 HVL."
+          },
+          {
+            lecture: "Principles of Radiological Protection",
+            question: "What is the annual equivalent dose limit for the lens of the eye for public exposure?",
+            translation: "ما هو الحد السنوي للجرعة المكافئة لعدسة العين للتعرض العام؟",
+            options: ["(a) 1 mSv", "(b) 15 mSv", "(c) 150 mSv", "(d) 500 mSv"],
+            correct: 1,
+            explanation: "الحد السنوي للجرعة المكافئة لعدسة العين لأفراد الجمهور هو 15 mSv."
+          },
+          {
+            lecture: "Principles of Radiological Protection",
+            question: "What does HVL stand for?",
+            translation: "ماذا يعني HVL؟",
+            options: ["(a) Tenth-Value Layer", "(b) Half-Value Layer", "(c) High Value Layer", "(d) Half Value Length"],
+            correct: 1,
+            explanation: "HVL تعني Half-Value Layer أي طبقة نصف القيمة - سُمك المادة الذي يقلل شدة الإشعاع إلى النصف."
+          },
+          {
+            lecture: "Principles of Radiological Protection",
+            question: "What does TVL stand for?",
+            translation: "ماذا يعني TVL؟",
+            options: ["(a) Half-Value Layer", "(b) Tenth Value Length", "(c) Tenth-Value Layer", "(d) Total Value Layer"],
+            correct: 2,
+            explanation: "TVL تعني Tenth-Value Layer أي طبقة عُشر القيمة - سُمك المادة الذي يقلل شدة الإشعاع إلى العُش."
+          }
+        ]
+      },
+      {
+        id: 4,
+        title: "Radiation Protection for Classification of Exposure",
+        titleAr: "الحماية من الإشعاع لتصنيف التعرض",
+        icon: "🏥",
+        questionsCount: 37,
+        questions: [
+          {
+            lecture: "Radiation Protection for Classification of Exposure",
+            question: "Which of the following is NOT a primary classification of exposure in radiation protection?",
+            translation: "أي مما يلي ليس تصنيفاً أولياً للتعرض في الحماية من الإشعاع؟",
+            options: ["a) Occupational Exposure", "b) Medical Exposure", "c) Public Exposure", "d) Environmental Exposure"],
+            correct: 3,
+            explanation: "التصنيفات الأساسية الثلاثة للتعرض الإشعاعي هي: التعرض المهني، التعرض الطبي، والتعرض العام. التعرض البيئي ليس تصنيفاً أساسياً منفصلاً."
+          },
+          {
+            lecture: "Radiation Protection for Classification of Exposure",
+            question: "What does occupational exposure refer to?",
+            translation: "إلى ماذا يشير التعرض المهني؟",
+            options: ["a) Exposure from medical procedures", "b) Exposure experienced by the general public", "c) Exposure as a result of work-related activities", "d) Exposure from nuclear power plants"],
+            correct: 2,
+            explanation: "التعرض المهني (Occupational Exposure) يشير إلى التعرض للإشعاع نتيجة الأنشطة المتعلقة بالعمل."
+          },
+          {
+            lecture: "Radiation Protection for Classification of Exposure",
+            question: "Who is typically included in the category of occupational exposure?",
+            translation: "من يُدرج عادة في فئة التعرض المهني؟",
+            options: ["a) Patients undergoing X-rays", "b) Members of the general public", "c) Medical professionals, nuclear workers, and industrial radiographers", "d) Individuals near nuclear power plants"],
+            correct: 2,
+            explanation: "التعرض المهني يشمل المهنيين الطبيين، العاملين في المجال النووي، ومصوري الأشعة الصناعية."
+          },
+          {
+            lecture: "Radiation Protection for Classification of Exposure",
+            question: "What is a key aspect of radiation protection for occupational exposure?",
+            translation: "ما هو الجانب الرئيسي للحماية من الإشعاع للتعرض المهني؟",
+            options: ["a) Avoiding all sources of radiation", "b) Using personal protective equipment", "c) Ignoring radiation levels", "d) Working without safety protocols"],
+            correct: 1,
+            explanation: "استخدام معدات الحماية الشخصية (Personal Protective Equipment) هو جانب رئيسي للحماية من التعرض المهني."
+          },
+          {
+            lecture: "Radiation Protection for Classification of Exposure",
+            question: "What is medical exposure associated with?",
+            translation: "بماذا يرتبط التعرض الطبي؟",
+            options: ["a) Work-related activities", "b) Medical procedures", "c) Environmental radiation", "d) Nuclear incidents"],
+            correct: 1,
+            explanation: "التعرض الطبي (Medical Exposure) يرتبط بالإجراءات الطبية مثل الأشعة السينية والتصوير بالرنين المغناطيسي والعلاج الإشعاعي."
+          },
+          {
+            lecture: "Radiation Protection for Classification of Exposure",
+            question: "Who is responsible for managing and minimizing medical exposure?",
+            translation: "من المسؤول عن إدارة وتقليل التعرض الطبي؟",
+            options: ["a) Nuclear workers", "b) The general public", "c) Medical professionals, patients, and medical facilities", "d) Industrial radiographers"],
+            correct: 2,
+            explanation: "المهنيون الطبيون، المرضى، والمرافق الطبية جميعهم مسؤولون عن إدارة وتقليل التعرض الطبي."
+          },
+          {
+            lecture: "Radiation Protection for Classification of Exposure",
+            question: "What is public exposure?",
+            translation: "ما هو التعرض العام؟",
+            options: ["a) Exposure from work-related activities", "b) Exposure from medical procedures", "c) Exposure experienced by the general public", "d) Exposure from occupational settings"],
+            correct: 2,
+            explanation: "التعرض العام (Public Exposure) هو التعرض للإشعاع الذي يختبره عامة الناس من مصادر مختلفة."
+          },
+          {
+            lecture: "Radiation Protection for Classification of Exposure",
+            question: "What are some sources of public exposure?",
+            translation: "ما هي بعض مصادر التعرض العام؟",
+            options: ["a) Medical procedures", "b) Occupational settings", "c) Nuclear power plants, environmental radiation, and radiological incidents", "d) Personal protective equipment"],
+            correct: 2,
+            explanation: "مصادر التعرض العام تشمل محطات الطاقة النووية، الإشعاع البيئية والحوادث الإشعاعية."
+          },
+          {
+            lecture: "Radiation Protection for Classification of Exposure",
+            question: "Who sets permissible exposure limits for the general public?",
+            translation: "من يضع حدود التعرض المسموح بها لعامة الناس؟",
+            options: ["a) Medical professionals", "b) Nuclear workers", "c) Regulatory authorities", "d) Industrial radiographers"],
+            correct: 2,
+            explanation: "السلطات التنظيمية (Regulatory Authorities) هي المسؤولة عن وضع حدود التعرض المسموح بها للجمهور."
+          },
+          {
+            lecture: "Radiation Protection for Classification of Exposure",
+            question: "What is the main goal of radiation protection?",
+            translation: "ما هو الهدف الرئيسي للحماية من الإشعاع؟",
+            options: ["a) To eliminate all sources of radiation", "b) To maximize exposure to radiation", "c) To minimize exposure to ionizing radiation and ensure safety", "d) To ignore safety protocols"],
+            correct: 2,
+            explanation: "الهدف الرئيسي للحماية من الإشعاع هو تقليل التعرض للإشعاع المؤين وضمان السلامة."
+          },
+          {
+            lecture: "Radiation Protection for Classification of Exposure",
+            question: "Which of the following is an example of a medical procedure that involves radiation exposure?",
+            translation: "أي مما يلي مثال على إجراء طبي يتضمن التعرض للإشعاع؟",
+            options: ["a) Working in a nuclear power plant", "b) Undergoing an X-ray", "c) Living near a nuclear waste site", "d) Working as an industrial radiographer"],
+            correct: 1,
+            explanation: "الخضوع لأشعة سينية (X-ray) هو مثال على إجراء طبي يتضمن التعرض للإشعاع."
+          },
+          {
+            lecture: "Radiation Protection for Classification of Exposure",
+            question: "What is a key measure for occupational exposure?",
+            translation: "ما هو إجراء رئيسي للتعرض المهني؟",
+            options: ["a) Avoiding all radiation sources", "b) Using personal protective equipment", "c) Ignoring radiation levels", "d) Working without safety protocols"],
+            correct: 1,
+            explanation: "استخدام معدات الحماية الشخصية هو إجراء رئيسي للحماية من التعرض المهني."
+          },
+          {
+            lecture: "Radiation Protection for Classification of Exposure",
+            question: "What is the primary concern regarding public exposure?",
+            translation: "ما هو الاهتمام الأساسي فيما يتعلق بالتعرض العام؟",
+            options: ["a) The exposure of medical professionals", "b) The exposure of nuclear workers", "c) The safety of the general public", "d) The exposure of industrial radiographers"],
+            correct: 2,
+            explanation: "الاهتمام الأساسي فيما يتعلق بالتعرض العام هو سلامة عامة الناس."
+          },
+          {
+            lecture: "Radiation Protection for Classification of Exposure",
+            question: "What is the purpose of radiation protection measures?",
+            translation: "ما هو الغرض من إجراءات الحماية من الإشعاع؟",
+            options: ["a) To increase radiation exposure", "b) To eliminate all sources of radiation", "c) To minimize exposure and ensure safety", "d) To ignore safety protocols"],
+            correct: 2,
+            explanation: "الغرض من إجراءات الحماية من الإشعاع هو تقليل التعرض وضمان السلامة."
+          },
+          {
+            lecture: "Radiation Protection for Classification of Exposure",
+            question: "Which group is most directly affected by occupational exposure?",
+            translation: "أي مجموعة تتأثر بشكل مباشر أكثر بالتعرض المهني؟",
+            options: ["a) The general public", "b) Patients", "c) Medical professionals and nuclear workers", "d) Visitors to nuclear power plants"],
+            correct: 2,
+            explanation: "المهنيون الطبيون والعاملون في المجال النووي هم المجموعة الأكثر تأثراً مباشرة بالتعرض المهني."
+          },
+          {
+            lecture: "Radiation Protection for Classification of Exposure",
+            question: "What is a common source of medical exposure?",
+            translation: "ما هو مصدر شائع للتعرض الطبي؟",
+            options: ["a) Nuclear power plants", "b) X-rays and CT scans", "c) Environmental radiation", "d) Industrial radiography"],
+            correct: 1,
+            explanation: "الأشعة السينية والتصوير المقطعي المحوسب (CT scans) هي مصادر شائعة للتعرض الطبي."
+          },
+          {
+            lecture: "Radiation Protection for Classification of Exposure",
+            question: "What is the role of regulatory authorities in public exposure?",
+            translation: "ما هو دور السلطات التنظيمية في التعرض العام؟",
+            options: ["a) To ignore public exposure", "b) To set permissible exposure limits", "c) To encourage higher exposure levels", "d) To eliminate all sources of radiation"],
+            correct: 1,
+            explanation: "دور السلطات التنظيمية هو وضع حدود التعرض المسموح بها لحماية الجمهور."
+          },
+          {
+            lecture: "Radiation Protection for Classification of Exposure",
+            question: "What is the main focus of radiation protection?",
+            translation: "ما هو التركيز الرئيسي للحماية من الإشعاع؟",
+            options: ["a) Maximizing exposure", "b) Minimizing exposure", "c) Ignoring exposure", "d) Eliminating all sources"],
+            correct: 1,
+            explanation: "التركيز الرئيسي للحماية من الإشعاع هو تقليل التعرض إلى أدنى مستوى معقول."
+          },
+          {
+            lecture: "Radiation Protection for Classification of Exposure",
+            question: "Which of the following is NOT a source of public exposure?",
+            translation: "أي مما يلي ليس مصدراً للتعرض العام؟",
+            options: ["a) Nuclear power plants", "b) Medical procedures", "c) Environmental radiation", "d) Radiological incidents"],
+            correct: 1,
+            explanation: "الإجراءات الطبية ليست مصدراً للتعرض العام، بل تُصنف ضمن التعرض الطبي (فئة منفصلة)."
+          },
+          {
+            lecture: "Radiation Protection for Classification of Exposure",
+            question: "What is a key aspect of radiation protection for medical exposure?",
+            translation: "ما هو الجانب الرئيسي للحماية من الإشعاع للتعرض الطبي؟",
+            options: ["a) Ignoring radiation levels", "b) Maximizing exposure", "c) Managing and minimizing exposure", "d) Avoiding all sources of radiation"],
+            correct: 2,
+            explanation: "الجانب الرئيسي للحماية من التعرض الطبي هو إدارة وتقليل التعرض للإشعاع مع تحقيق الفائدة التشخيصية أو العلاجية."
+          },
+          {
+            lecture: "Radiation Protection for Classification of Exposure",
+            question: "Which organization sets dose limits for radiation exposure?",
+            translation: "أي منظمة تحدد حدود الجرعة للتعرض الإشعاعي؟",
+            options: ["(a) World Health Organization (WHO)", "(b) International Commission on Radiological Protection (ICRP)", "(c) United Nations (UN)", "(d) Centers for Disease Control and Prevention (CDC)"],
+            correct: 1,
+            explanation: "اللجنة الدولية للحماية من الإشعاع (ICRP) هي المنظمة المسؤولة عن وضع توصيات حدود الجرعة الإشعاعية."
+          },
+          {
+            lecture: "Radiation Protection for Classification of Exposure",
+            question: "What is the recommended annual effective dose limit for occupational exposure, averaged over five years?",
+            translation: "ما هو الحد الموصى به للجرعة الفعالة السنوية للتعرض المهني، محسوباً كمتوسط على خمس سنوات؟",
+            options: ["(a) 1 mSv", "(b) 10 mSv", "(c) 20 mSv", "(d) 50 mSv"],
+            correct: 2,
+            explanation: "الحد الموصى به للجرعة الفعالة للتعرض المهني هو 20 mSv كمتوسط سنوي على فترة خمس سنوات."
+          },
+          {
+            lecture: "Radiation Protection for Classification of Exposure",
+            question: "What unit is used to measure radiation dose?",
+            translation: "ما هي الوحدة المستخدمة لقياس جرعة الإشعاع؟",
+            options: ["(a) Becquerel (Bq)", "(b) Gray (Gy)", "(c) Sievert (Sv)", "(d) Curie (Ci)"],
+            correct: 2,
+            explanation: "السيفرت (Sievert - Sv) هي وحدة قياس الجرعة المكافئة والفعالة التي تأخذ في الاعتبار التأثير البيولوجي للإشعاع."
+          },
+          {
+            lecture: "Radiation Protection for Classification of Exposure",
+            question: "What is the recommended annual effective dose limit for the general public, not including natural background radiation?",
+            translation: "ما هو الحد الموصى به للجرعة الفعالة السنوية لعامة الجمهور، بدون احتساب الإشعاع الطبيعي الخلفي؟",
+            options: ["(a) 1 mSv", "(b) 10 mSv", "(c) 20 mSv", "(d) 50 mSv"],
+            correct: 0,
+            explanation: "الحد الموصى به للجرعة الفعالة السنوية لعامة الجمهور هو 1 mSv (بدون احتساب الإشعاع الطبيعي الخلفي)."
+          },
+          {
+            lecture: "Radiation Protection for Classification of Exposure",
+            question: "Who is occupational exposure dose limits set for?",
+            translation: "لمن تُوضع حدود جرعة التعرض المهني؟",
+            options: ["(a) The general public", "(b) Individuals who work with or around radiation sources", "(c) Patients undergoing medical procedures", "(d) Children"],
+            correct: 1,
+            explanation: "حدود جرعة التعرض المهني موضوعة للأفراد الذين يعملون مع أو حول مصادر الإشعاع."
+          },
+          {
+            lecture: "Radiation Protection for Classification of Exposure",
+            question: "What is the maximum permissible dose in a single year for occupational exposure?",
+            translation: "ما هي الجرعة القصوى المسموح بها في سنة واحدة للتعرض المهني؟",
+            options: ["(a) 10 mSv", "(b) 20 mSv", "(c) 50 mSv", "(d) 100 mSv"],
+            correct: 2,
+            explanation: "الجرعة القصوى المسموح بها في سنة واحدة للتعرض المهني هي 50 mSv، رغم أن المتوسط على 5 سنوات يجب ألا يتجاوز 20 mSv سنوياً."
+          },
+          {
+            lecture: "Radiation Protection for Classification of Exposure",
+            question: "What is the primary goal of whole-body radiation dose limits?",
+            translation: "ما هو الهدف الأساسي من حدود جرعة الإشعاع للجسم بالكامل؟",
+            options: ["(a) To increase the risk of adverse health effects", "(b) To regulate the use of nuclear power plants", "(c) To minimize the risk of adverse health effects", "(d) To promote the use of radiation in medical procedures"],
+            correct: 2,
+            explanation: "الهدف الأساسي من حدود جرعة الإشعاع للجسم بالكامل هو تقليل مخاطر التأثيرات الصحية الضارة."
+          },
+          {
+            lecture: "Radiation Protection for Classification of Exposure",
+            question: "Which of the following is NOT a source of radiation exposure for the general public?",
+            translation: "أي مما يلي ليس مصدراً للتعرض الاشعاعي لعامة الجمهور؟",
+            options: ["(a) Medical procedures", "(b) Nuclear power plants", "(c) Occupational exposure", "(d) Environmental factors"],
+            correct: 2,
+            explanation: "التعرض المهني ليس مصدراً للتعرض الإشعاعي لعامة الجمهور، بل هو فئة منفصلة خاصة بالعاملين في المجال الإشعاعي."
+          },
+          {
+            lecture: "Radiation Protection for Classification of Exposure",
+            question: "What is the main purpose of dose limits?",
+            translation: "ما هو الغرض الرئيسي من حدود الجرعة؟",
+            options: ["(a) To encourage the use of radiation", "(b) To protect individuals from the harmful effects of radiation", "(c) To increase the amount of radiation exposure", "(d) To promote the use of nuclear energy"],
+            correct: 1,
+            explanation: "الغرض الرئيسي من حدود الجرعة هو حماية الأفراد من التأثيرات الضارة للإشعاع."
+          },
+          {
+            lecture: "Radiation Protection for Classification of Exposure",
+            question: "What does ICRP stand for?",
+            translation: "ماذا يعني اختصار ICRP؟",
+            options: ["(a) International Commission on Radiological Protection", "(b) International Committee for Radiation Protection", "(c) Institute for Clinical Radiological Procedures", "(d) International Council for Radiation Physics"],
+            correct: 0,
+            explanation: "ICRP تعني اللجنة الدولية للحماية من الإشعاع (International Commission on Radiological Protection)."
+          },
+          {
+            lecture: "Radiation Protection for Classification of Exposure",
+            question: "What is the purpose of dose limits?",
+            translation: "ما هو الغرض من حدود الجرعة؟",
+            options: ["(a) To encourage more radiation exposure", "(b) To ensure radiation exposure remains within safe levels", "(c) To eliminate all radiation exposure", "(d) To increase the use of radiation in industry"],
+            correct: 1,
+            explanation: "الغرض من حدود الجرعة هو ضمان بقاء التعرض للإشعاع ضمن المستويات الآمنة."
+          },
+          {
+            lecture: "Radiation Protection for Classification of Exposure",
+            question: "What factors are considered when setting dose limits?",
+            translation: "ما هي العوامل التي تُؤخذ بالاعتبار عند وضع حدود الجرعة؟",
+            options: ["(a) The color of the radiation", "(b) The type of radiation, duration of exposure, and circumstances", "(c) The cost of radiation protection", "(d) The political climate"],
+            correct: 1,
+            explanation: "عند وضع حدود الجرعة، تُؤخذ بالاعتبار عوامل مثل نوع الإشعاع، مدة التعرض، والظروف المحيطة."
+          },
+          {
+            lecture: "Radiation Protection for Classification of Exposure",
+            question: "What is the typical annual effective dose limit for the general public?",
+            translation: "ما هو الحد المعتاد للجرعة الفعالة السنوية لعامة الجمهور؟",
+            options: ["(a) 20 mSv", "(b) 50 mSv", "(c) 1 mSv", "(d) 10 mSv"],
+            correct: 2,
+            explanation: "الحد المعتاد للجرعة الفعالة السنوية لعامة الجمهور هو 1 mSv (بدون احتساب الإشعاع الطبيعي الخلفي)."
+          },
+          {
+            lecture: "Radiation Protection for Classification of Exposure",
+            question: "What is the primary concern regarding whole-body radiation exposure?",
+            translation: "ما هو الاهتمام الأساسي فيما يتعلق بالتعرض الإشعاعي للجسم بالكامل؟",
+            options: ["(a) Cosmetic changes", "(b) Adverse health effects", "(c) Increased athletic performance", "(d) Enhanced cognitive function"],
+            correct: 1,
+            explanation: "الاهتمام الأساسي فيما يتعلق بالتعرض الإشعاعي للجسم بالكامل هو التأثيرات الصحية الضارة المحتملة."
+          },
+          {
+            lecture: "Radiation Protection for Classification of Exposure",
+            question: "Which of the following is an example of a source of radiation exposure for the general public?",
+            translation: "أي مما يلي مثال على مصدر التعرض الإشعاعي لعامة الجمهور؟",
+            options: ["(a) Working in a nuclear power plant", "(b) Undergoing a medical X-ray", "(c) Handling radioactive materials", "(d) All of the above"],
+            correct: 1,
+            explanation: "الخضوع لأشعة سينية طبية هو مثال على مصدر التعرض للجمهور. العمل في محطة نووية ومناولة المواد المشعة يُصنفان كتعرض مهني."
+          },
+          {
+            lecture: "Radiation Protection for Classification of Exposure",
+            question: "What does IAEA stand for?",
+            translation: "ماذا يعني اختصار IAEA؟",
+            options: ["(a) International Atomic Energy Agency", "(b) International Agency for Atomic Energy", "(c) Institute for Atomic Energy", "(d) International Association of Environmental Agencies"],
+            correct: 0,
+            explanation: "IAEA تعني الوكالة الدولية للطاقة الذرية (International Atomic Energy Agency)."
+          },
+          {
+            lecture: "Radiation Protection for Classification of Exposure",
+            question: "Dose limits are set to protect:",
+            translation: "حدود الجرعة موضوعة لحماية:",
+            options: ["(a) Only workers", "(b) Only the general public", "(c) Both workers and the general public", "(d) Only patients"],
+            correct: 2,
+            explanation: "حدود الجرعة موضوعة لحماية كل من العاملين في المجال الإشعاعي وعامة الجمهور."
+          }
+        ]
+      }
+    ];
+
+    let currentLecture = null;
+    let currentQuestion = 0;
+    let userAnswers = [];
+    let score = 0;
+    let isDarkMode = false;
+    let showingTranslation = {};
+
+    function showLectureSelection() {
+      currentLecture = null;
+      const quizContent = document.getElementById('quizContent');
+      
+      quizContent.innerHTML = `
+        <div class="lecture-selection">
+          ${lectures.map(lecture => `
+            <div class="lecture-card" onclick="selectLecture(${lecture.id})">
+              <div class="lecture-icon">${lecture.icon}</div>
+              <h3 class="lecture-title">${lecture.titleAr}</h3>
+              <p class="lecture-info" style="font-family: 'Poppins', sans-serif; direction: ltr; text-align: center;">${lecture.title}</p>
+              <p class="lecture-info">${lecture.questionsCount} سؤال</p>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    function selectLecture(lectureId) {
+      currentLecture = lectures.find(l => l.id === lectureId);
+      currentQuestion = 0;
+      userAnswers = [];
+      score = 0;
+      showingTranslation = {};
+      render();
+    }
+
+    function render() {
+      if (!currentLecture) {
+        showLectureSelection();
+        return;
+      }
+
+      if (currentQuestion < currentLecture.questions.length) {
+        renderQuestion();
+      } else {
+        renderResults();
+      }
+    }
+
+    function renderQuestion() {
+      const question = currentLecture.questions[currentQuestion];
+      const quizContent = document.getElementById('quizContent');
+      
+      quizContent.innerHTML = `
+        <button class="back-btn" onclick="showLectureSelection()">
+          ← العودة للمحاضرات
+        </button>
+        
+        <div class="quiz-card">
+          <div class="question-header">
+            <span class="question-number">السؤال ${currentQuestion + 1}</span>
+            <span class="progress-text">${currentQuestion + 1} من ${currentLecture.questions.length}</span>
+          </div>
+          
+          <div class="question-content">
+            <div class="question-text-wrapper">
+              <p class="question-text">${question.question}</p>
+              <button class="translate-btn" onclick="toggleTranslation()" aria-label="ترجمة السؤال">🌐</button>
+            </div>
+            <div id="translationContainer"></div>
+          </div>
+          
+          <div class="options-grid" id="optionsGrid">
+            ${question.options.map((option, index) => `
+              <button class="option-btn" onclick="selectAnswer(${index})">
+                <span class="option-letter">${String.fromCharCode(65 + index)}</span>
+                <span style="flex: 1;">${option}</span>
+              </button>
+            `).join('')}
+          </div>
+          
+          <div id="feedbackContainer"></div>
+        </div>
+      `;
+    }
+
+    function toggleTranslation() {
+      const question = currentLecture.questions[currentQuestion];
+      const container = document.getElementById('translationContainer');
+      
+      if (showingTranslation[currentQuestion]) {
+        container.innerHTML = '';
+        showingTranslation[currentQuestion] = false;
+      } else {
+        container.innerHTML = `<p class="translation-text">${question.translation}</p>`;
+        showingTranslation[currentQuestion] = true;
+      }
+    }
+
+    function selectAnswer(selectedIndex) {
+      const question = currentLecture.questions[currentQuestion];
+      const buttons = document.querySelectorAll('.option-btn');
+      const feedbackContainer = document.getElementById('feedbackContainer');
+      
+      buttons.forEach(btn => btn.disabled = true);
+      
+      userAnswers.push(selectedIndex);
+      
+      if (selectedIndex === question.correct) {
+        buttons[selectedIndex].classList.add('correct');
+        score++;
+        
+        setTimeout(() => {
+          currentQuestion++;
+          render();
+        }, 1000);
+      } else {
+        buttons[selectedIndex].classList.add('incorrect');
+        buttons[question.correct].classList.add('correct');
+        
+        feedbackContainer.innerHTML = `
+          <div class="feedback-box">
+            <strong>💡 توضيح:</strong> ${question.explanation}
+          </div>
+          <div style="text-align: center;">
+            <button class="next-btn" onclick="goToNextQuestion()">التالي ←</button>
+          </div>
+        `;
+      }
+    }
+
+    function goToNextQuestion() {
+      currentQuestion++;
+      render();
+    }
+
+    function renderResults() {
+      const percentage = Math.round((score / currentLecture.questions.length) * 100);
+      const quizContent = document.getElementById('quizContent');
+      
+      let resultClass, resultIcon, resultMessage;
+      
+      if (percentage < 50) {
+        resultClass = 'fail';
+        resultIcon = '😔';
+        resultMessage = window.elementSdk?.config?.fail_message || defaultConfig.fail_message;
+      } else if (percentage < 90) {
+        resultClass = 'pass';
+        resultIcon = '👍';
+        resultMessage = window.elementSdk?.config?.pass_message || defaultConfig.pass_message;
+      } else {
+        resultClass = 'excellent';
+        resultIcon = '🏆';
+        resultMessage = window.elementSdk?.config?.excellent_message || defaultConfig.excellent_message;
+        createConfetti();
+      }
+      
+      quizContent.innerHTML = `
+        <button class="back-btn" onclick="showLectureSelection()">
+          ← العودة للمحاضرات
+        </button>
+        
+        <div class="results-container">
+          <div class="results-icon">${resultIcon}</div>
+          <h2 class="results-title">انتهى الاختبار!</h2>
+          <div class="score-display ${resultClass}">${percentage}%</div>
+          <div class="results-message">${resultMessage}</div>
+          <p style="font-size: 18px; margin-bottom: 30px;">النتيجة: ${score} من ${currentLecture.questions.length}</p>
+          
+          <div class="action-buttons">
+            <button class="action-btn primary-btn" onclick="restartQuiz()">
+              🔄 إعادة الاختبار
+            </button>
+            <button class="action-btn secondary-btn" onclick="reviewAnswers()">
+              📋 مراجعة الإجابات
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    function createConfetti() {
+      const container = document.createElement('div');
+      container.className = 'confetti-container';
+      document.body.appendChild(container);
+      
+      const colors = ['#ffd700', '#ff6b6b', '#4ecdc4', '#45b7d1', '#f7b731', '#5f27cd'];
+      
+      for (let i = 0; i < 100; i++) {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        confetti.style.left = Math.random() * 100 + '%';
+        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        confetti.style.animationDelay = Math.random() * 3 + 's';
+        confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+        container.appendChild(confetti);
+      }
+      
+      setTimeout(() => {
+        container.remove();
+      }, 5000);
+    }
+
+    function reviewAnswers() {
+      const quizContent = document.getElementById('quizContent');
+      
+      let reviewHTML = '<button class="back-btn" onclick="showLectureSelection()">← العودة للمحاضرات</button><div>';
+      
+      currentLecture.questions.forEach((question, index) => {
+        const userAnswer = userAnswers[index];
+        const isCorrect = userAnswer === question.correct;
+        
+        reviewHTML += `
+          <div class="review-question">
+            <div class="review-header">
+              <span class="question-number">السؤال ${index + 1}</span>
+              <span class="review-status ${isCorrect ? 'correct' : 'incorrect'}">
+                ${isCorrect ? '✓ صحيح' : '✗ خطأ'}
+              </span>
+            </div>
+            
+            <p class="review-question-text">${question.question}</p>
+            <p class="translation-text">${question.translation}</p>
+            
+            <div class="review-options">
+              ${question.options.map((option, optIndex) => `
+                <div class="review-option ${optIndex === userAnswer ? 'user-answer' : ''} ${optIndex === question.correct ? 'correct-answer' : ''}">
+                  ${option}
+                  ${optIndex === userAnswer && optIndex !== question.correct ? ' (إجابتك)' : ''}
+                  ${optIndex === question.correct ? ' (الإجابة الصحيحة)' : ''}
+                </div>
+              `).join('')}
+            </div>
+            
+            ${!isCorrect ? `<div class="feedback-box" style="margin-top: 15px;">${question.explanation}</div>` : ''}
+          </div>
+        `;
+      });
+      
+      reviewHTML += `
+        <div style="text-align: center; margin-top: 30px;">
+          <button class="action-btn primary-btn" onclick="restartQuiz()">
+            🔄 إعادة الاختبار
+          </button>
+        </div>
+      </div>
+      `;
+      
+      quizContent.innerHTML = reviewHTML;
+    }
+
+    function restartQuiz() {
+      currentQuestion = 0;
+      userAnswers = [];
+      score = 0;
+      showingTranslation = {};
+      render();
+    }
+
+    document.getElementById('darkModeBtn').addEventListener('click', () => {
+      isDarkMode = !isDarkMode;
+      const wrapper = document.getElementById('appWrapper');
+      const btn = document.getElementById('darkModeBtn');
+      
+      if (isDarkMode) {
+        wrapper.classList.remove('light-mode');
+        wrapper.classList.add('dark-mode');
+        btn.textContent = '🌙';
+      } else {
+        wrapper.classList.remove('dark-mode');
+        wrapper.classList.add('light-mode');
+        btn.textContent = '☀️';
+      }
+    });
+
+    document.getElementById('fullscreenBtn').addEventListener('click', () => {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(err => {
+          console.log('Fullscreen request failed');
+        });
+      } else {
+        document.exitFullscreen();
+      }
+    });
+
+    async function onConfigChange(config) {
+      const titleElement = document.getElementById('platformTitle');
+      const subjectElement = document.getElementById('subjectName');
+      const studentElement = document.getElementById('studentName');
+      
+      if (titleElement) {
+        titleElement.textContent = config.platform_title || defaultConfig.platform_title;
+      }
+      if (subjectElement) {
+        subjectElement.textContent = config.subject_name || defaultConfig.subject_name;
+      }
+      if (studentElement) {
+        studentElement.textContent = config.student_name || defaultConfig.student_name;
+      }
+    }
+
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig: defaultConfig,
+        onConfigChange: onConfigChange,
+        mapToCapabilities: (config) => ({
+          recolorables: [
+            {
+              get: () => config.background_color || defaultConfig.background_color,
+              set: (value) => {
+                if (window.elementSdk?.config) {
+                  window.elementSdk.config.background_color = value;
+                  window.elementSdk.setConfig({ background_color: value });
+                }
+              }
+            },
+            {
+              get: () => config.card_color || defaultConfig.card_color,
+              set: (value) => {
+                if (window.elementSdk?.config) {
+                  window.elementSdk.config.card_color = value;
+                  window.elementSdk.setConfig({ card_color: value });
+                }
+              }
+            },
+            {
+              get: () => config.primary_color || defaultConfig.primary_color,
+              set: (value) => {
+                if (window.elementSdk?.config) {
+                  window.elementSdk.config.primary_color = value;
+                  window.elementSdk.setConfig({ primary_color: value });
+                }
+              }
+            },
+            {
+              get: () => config.text_color || defaultConfig.text_color,
+              set: (value) => {
+                if (window.elementSdk?.config) {
+                  window.elementSdk.config.text_color = value;
+                  window.elementSdk.setConfig({ text_color: value });
+                }
+              }
+            },
+            {
+              get: () => config.accent_color || defaultConfig.accent_color,
+              set: (value) => {
+                if (window.elementSdk?.config) {
+                  window.elementSdk.config.accent_color = value;
+                  window.elementSdk.setConfig({ accent_color: value });
+                }
+              }
+            }
+          ],
+          borderables: [],
+          fontEditable: {
+            get: () => config.font_family || defaultConfig.font_family,
+            set: (value) => {
+              if (window.elementSdk?.config) {
+                window.elementSdk.config.font_family = value;
+                window.elementSdk.setConfig({ font_family: value });
+              }
+            }
+          },
+          fontSizeable: {
+            get: () => config.font_size || defaultConfig.font_size,
+            set: (value) => {
+              if (window.elementSdk?.config) {
+                window.elementSdk.config.font_size = value;
+                window.elementSdk.setConfig({ font_size: value });
+              }
+            }
+          }
+        }),
+        mapToEditPanelValues: (config) => new Map([
+          ['platform_title', config.platform_title || defaultConfig.platform_title],
+          ['subject_name', config.subject_name || defaultConfig.subject_name],
+          ['student_name', config.student_name || defaultConfig.student_name],
+          ['pass_message', config.pass_message || defaultConfig.pass_message],
+          ['excellent_message', config.excellent_message || defaultConfig.excellent_message],
+          ['fail_message', config.fail_message || defaultConfig.fail_message]
+        ])
+      });
+    }
+
+    showLectureSelection();
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a60666f119cf51b',t:'MTc2NDQwMTQzMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
